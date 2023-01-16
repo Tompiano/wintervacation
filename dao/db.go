@@ -10,7 +10,7 @@ import (
 var DB *sql.DB
 
 func InitDB() *sql.DB {
-	dns := "root:123456@tcp(127.0.0.1:3306)/winterVacation"
+	dns := "root:123456@tcp(127.0.0.1)/winterVacation"
 	db, err := sql.Open("mysql", dns)
 	err = db.Ping() //检查数据库是否可用且可访问
 	if err != nil {
