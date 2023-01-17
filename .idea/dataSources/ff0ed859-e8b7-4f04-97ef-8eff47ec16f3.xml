@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@localhost">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.43">
+    <root id="1">
+      <DefaultCasing>lower/lower</DefaultCasing>
+      <ServerVersion>5.7.36</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="information_schema"/>
+    <schema id="3" parent="1" name="library"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="practice"/>
+    <schema id="7" parent="1" name="sys"/>
+    <schema id="8" parent="1" name="test"/>
+    <schema id="9" parent="1" name="user"/>
+    <schema id="10" parent="1" name="wintervacation"/>
+    <table id="11" parent="10" name="personinformation"/>
+    <table id="12" parent="10" name="user"/>
+    <column id="13" parent="11" name="ID">
+      <AutoIncrement>1</AutoIncrement>
+      <DataType>INT(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="14" parent="11" name="userName">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="15" parent="11" name="nickName">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="16" parent="11" name="gender">
+      <DataType>ENUM(1)|1s</DataType>
+      <DefaultExpression>&apos;男&apos;</DefaultExpression>
+      <Position>4</Position>
+    </column>
+    <column id="17" parent="11" name="phone">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="18" parent="11" name="mailbox">
+      <DataType>VARCHAR(50)|12s</DataType>
+      <Position>6</Position>
+    </column>
+    <column id="19" parent="11" name="birthday">
+      <DataType>VARCHAR(50)|12s</DataType>
+      <Position>7</Position>
+    </column>
+    <column id="20" parent="11" name="s_id">
+      <DataType>INT(10)|4s</DataType>
+      <Position>8</Position>
+    </column>
+    <foreign-key id="21" parent="11" name="personinformation_ibfk_1">
+      <ColNames>s_id</ColNames>
+      <RefColNames>ID</RefColNames>
+      <RefTableName>user</RefTableName>
+    </foreign-key>
+    <index id="22" parent="11" name="PRIMARY">
+      <ColNames>ID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <index id="23" parent="11" name="s_id">
+      <ColNames>s_id</ColNames>
+    </index>
+    <key id="24" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexColNames>ID</UnderlyingIndexColNames>
+    </key>
+    <column id="25" parent="12" name="ID">
+      <AutoIncrement>1</AutoIncrement>
+      <DataType>INT(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="26" parent="12" name="userName">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="27" parent="12" name="phone">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="28" parent="12" name="password">
+      <DataType>VARCHAR(20)|12s</DataType>
+      <Position>4</Position>
+    </column>
+    <index id="29" parent="12" name="PRIMARY">
+      <ColNames>ID</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="30" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexColNames>ID</UnderlyingIndexColNames>
+    </key>
+  </database-model>
+</dataSource>

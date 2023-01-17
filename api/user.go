@@ -54,10 +54,9 @@ func Register(c *gin.Context) {
 	}
 	//判断完后就添加用户的信息
 	err := service.CreateUser(model.User{
-		UserName:          UserName,
-		Password:          Password,
-		Phone:             Phone,
-		PersonInformation: PersonInformation,
+		UserName: UserName,
+		Password: Password,
+		Phone:    Phone,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)
@@ -103,6 +102,33 @@ func Login(c *gin.Context) {
 	}
 	fmt.Println(ss)
 
+}
+func Add(c *gin.Context) {
+	userName := c.PostForm("userName")
+	nickName := c.PostForm("nickName")
+	gender := c.PostForm("gender")
+	phone := c.PostForm("phone")
+	email := c.PostForm("mailbox")
+	birthday := c.PostForm("birthday")
+	//入参校验
+	if userName == "" || nickName == "" || gender == "" || phone == "" || email == "" || birthday == "" {
+		util.ResponseParaError(c)
+		return
+	}
+	//加入数据库
+	err := service.CreatePersonInformation(model.PersonInformation{
+		UserName: userName,
+		NickName: nickName,
+		Gender:   gender,
+		Phone:    phone,
+		Email:    email,
+		Birthday: birthday,
+	})
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
+	}
+	util.ResponseOK(c)
 }
 
 func Forget(c *gin.Context) {

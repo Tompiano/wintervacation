@@ -12,7 +12,7 @@ func TokenMiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//从前端处获取jwt的Header
 		tokenString := c.GetHeader("Authentication")
-		mySignedKey := c.PostForm("mySignedKey")
+		mySignedKey := "token"
 		//检验从前端传过来的header格式是否正确：不为空，开头前缀为Bearer（string.HasPrefix来检验）
 		if tokenString == "" || strings.HasPrefix(tokenString, "Bearer") == false {
 			util.ResponseNormalError(c, 10009, "token is wrong")

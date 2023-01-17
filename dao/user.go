@@ -23,7 +23,7 @@ func SelectUserInformation(UserName string) (u model.User) { //找用户名是�
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&u.PersonInformation, &u.ID, &u.UserName, &u.Phone, &u.Password)
+		err = row.Scan(&u.ID, &u.UserName, &u.Phone, &u.Password)
 		if err != nil {
 			log.Printf("when search userName if exist.mysql scan error:%v", err)
 			return
@@ -32,8 +32,8 @@ func SelectUserInformation(UserName string) (u model.User) { //找用户名是�
 	return
 }
 func InsertUser(u model.User) (err error) {
-	result, err := DB.Exec("insert into user (userName,password,phone,personInformation) value(?,?,?,?)",
-		u.UserName, u.Password, u.Phone, u.PersonInformation)
+	result, err := DB.Exec("insert into user (userName,password,phone) value(?,?,?)",
+		u.UserName, u.Password, u.Phone)
 	if err != nil {
 		log.Printf("when insert user error:%v", err)
 		return
@@ -61,7 +61,7 @@ func SelectUserNameIfFirPassword(userName string) (u model.User) {
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.PersonInformation, &u.ID)
+		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.ID)
 		if err != nil {
 			log.Printf("when scan in login,err:%v", err)
 			return
@@ -88,7 +88,7 @@ func SelectPhoneIfExist(phone string) (u model.User) {
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.PersonInformation, &u.ID)
+		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.ID)
 		if err != nil {
 			log.Printf("when scan in phone,err:%v", err)
 			return
@@ -101,6 +101,20 @@ func UpdatePassword(password, userName string) (err error) {
 	result, err := DB.Exec("update user SET password=? where userName=?", password, userName)
 	if err != nil {
 		log.Printf("when update password,err:%v", err)
+		return
+	}
+	result.LastInsertId()
+	result.RowsAffected()
+	return
+}
+
+//添加用户信息相关---------------------------------------------------------------------------------------------------------
+
+func InsertPersonInformation(p model.PersonInformation) (err error) {
+	result, err := DB.Exec("insert into personInformation(userName,nickName,gender,phone,email,birthday)value(?,?,?,?,?,?)",
+		p.UserName, p.NickName, p.Gender, p.Phone, p.Email, p.Birthday)
+	if err != nil {
+		log.Printf("when insert into personinformation error:%v", err)
 		return
 	}
 	result.LastInsertId()

@@ -43,3 +43,10 @@ func ChangePassword(password, userName string) (err error) {
 	err = dao.UpdatePassword(password, userName)
 	return
 }
+
+//添加用户信息相关---------------------------------------------------------------------------------------------------------
+
+func CreatePersonInformation(p model.PersonInformation) (err error) {
+	err = dao.InsertPersonInformation(p)
+	return
+}
