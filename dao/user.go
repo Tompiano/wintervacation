@@ -121,3 +121,17 @@ func InsertPersonInformation(p model.PersonInformation) (err error) {
 	result.RowsAffected()
 	return
 }
+
+//添加头像相关的-----------------------------------------------------------------------------------------------------------
+
+func InsertPersonAvatar(a model.Avatar) (err error) {
+	result, err := DB.Exec("insert into avatar(userID,avatarName,avatarPath) value(?,?,?)",
+		a.UserID, a.AvatarName, a.AvatarPath)
+	if err != nil {
+		log.Printf("when insert into person avatar error:%v", err)
+		return
+	}
+	result.LastInsertId()
+	result.RowsAffected()
+	return
+}

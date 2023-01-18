@@ -50,3 +50,10 @@ func CreatePersonInformation(p model.PersonInformation) (err error) {
 	err = dao.InsertPersonInformation(p)
 	return
 }
+
+//添加用户头像相关---------------------------------------------------------------------------------------------------------
+
+func CreatePersonAvatar(a model.Avatar) (err error) {
+	err = dao.InsertPersonAvatar(a)
+	return
+}

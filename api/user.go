@@ -178,5 +178,16 @@ func Avatar(c *gin.Context) {
 		util.ResponseNormalError(c, 20002, "upload avatar fail")
 		return
 	}
+	avatarPath := "./" + avatarName
+	//将照片路径存入数据库
+	err = service.CreatePersonAvatar(model.Avatar{
+		UserID:     userID,
+		AvatarName: avatarName,
+		AvatarPath: avatarPath,
+	})
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
+	}
 	util.ResponseOK(c)
 }
