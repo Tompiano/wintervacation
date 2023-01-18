@@ -5,11 +5,10 @@ import "github.com/dgrijalva/jwt-go"
 //用户登录注册需要用到的
 
 type User struct {
-	ID       int    `json:"ID"`
+	ID       string `json:"ID"`
 	UserName string `json:"userName"`
 	Password string `json:"password"`
 	Phone    string `json:"phone"`
-	Token    string `json:""`
 }
 
 // token要用到的
@@ -29,4 +28,12 @@ type PersonInformation struct {
 	Phone    string `json:"phone"`
 	Email    string `json:"email"`
 	Birthday string `json:"birthday"`
+}
+
+//添加用户头像相关的信息
+
+type Avatar struct {
+	UserID     string `json:"userID"`
+	AvatarName string `json:"avatarName"`
+	AvatarPath string `json:"avatarPath"`
 }

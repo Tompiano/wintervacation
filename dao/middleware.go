@@ -34,7 +34,7 @@ func SelectUserID(userID string) (u model.User, err error) {
 	}
 	defer row.Close()
 	for row.Next() {
-		err = row.Scan(&u.PersonInformation, &u.ID, &u.UserName, &u.Phone, &u.Password)
+		err = row.Scan(&u.ID, &u.UserName, &u.Phone, &u.Password)
 		if err != nil {
 			log.Printf("when search userID if exist.mysql scan error:%v", err)
 			return

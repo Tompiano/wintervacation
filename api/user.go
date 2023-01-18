@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"log"
 	"time"
 	"wintervacation/model"
 	"wintervacation/service"
@@ -103,12 +104,13 @@ func Login(c *gin.Context) {
 	fmt.Println(ss)
 
 }
-func Add(c *gin.Context) {
+func Person(c *gin.Context) {
+	//获取用户信息
 	userName := c.PostForm("userName")
 	nickName := c.PostForm("nickName")
 	gender := c.PostForm("gender")
 	phone := c.PostForm("phone")
-	email := c.PostForm("mailbox")
+	email := c.PostForm("email")
 	birthday := c.PostForm("birthday")
 	//入参校验
 	if userName == "" || nickName == "" || gender == "" || phone == "" || email == "" || birthday == "" {
@@ -160,4 +162,21 @@ func Forget(c *gin.Context) {
 	}
 	util.ResponseOK(c)
 
+}
+func Avatar(c *gin.Context) {
+	//用户传头像
+	avatar, err := c.FormFile("avatar")
+	userID := c.PostForm("userID")
+	if err != nil || userID == "" {
+		util.ResponseParaError(c)
+		return
+	}
+	avatarName := userID + ".png"
+	err = c.SaveUploadedFile(avatar, "./"+avatarName) //fileHeader和接收文件路径
+	if err != nil {
+		log.Printf("upload error:%v", err)
+		util.ResponseNormalError(c, 20002, "upload avatar fail")
+		return
+	}
+	util.ResponseOK(c)
 }
