@@ -77,11 +77,12 @@ func Show(c *gin.Context) {
 		util.ResponseParaError(c)
 		return
 	}
+	page := (showProduct.PageNumber - 1) * showProduct.PageNumber
 	//分类展示商品
 	//这里只输入了三个种类的商品的信息，所以只做了三个种类的商品的展示
 	if showProduct.Kind == "all" {
 		//如果选择“all”,展示所有商品
-		err, p := service.ShowAllProduct()
+		err, p := service.ShowAllProduct(showProduct.Way, page, showProduct.PageSize)
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
@@ -89,7 +90,7 @@ func Show(c *gin.Context) {
 		util.ResponseProduct(c, p)
 	} else {
 		//根据选择来分类别展示商品
-		err, p := service.ShowCategoriesProduct(showProduct.Kind, showProduct.Kind)
+		err, p := service.ShowCategoriesProduct(showProduct.Kind, showProduct.Kind, page, showProduct.PageSize)
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
@@ -103,8 +104,12 @@ func Explore(c *gin.Context) {
 	words := c.PostForm("words")                            //用户输入的查询词语
 	way := c.PostForm("way")                                //用户选择的排序方式：价格/销量/评价
 	pageNumber, _ := strconv.Atoi(c.PostForm("pageNumber")) //页数
-	pageSize, _ := strconv.Atoi(c.PostForm("pageSize"))     //页面容量
-	page := (pageNumber - 1) * pageSize                     //计算出总体的商品数量规模
+	if words == "" || way == "" || pageNumber == 0 {
+		util.ResponseParaError(c)
+		return
+	}
+	pageSize, _ := strconv.Atoi(c.PostForm("pageSize")) //页面容量
+	page := (pageNumber - 1) * pageSize                 //计算出总体的商品数量规模
 	err, p := service.ExploreProducts(words, way, page, pageSize)
 	if err != nil {
 		util.ResponseInternalError(c)

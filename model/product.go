@@ -15,7 +15,8 @@ type Product struct {
 }
 
 type ShowProduct struct {
-	ProductName string `json:"productName"`
-	Kind        string `json:"kind"` //商品种类
-	Way         string `json:"way"`  //商品排序方式
+	Kind       string `json:"kind"`       //商品种类
+	Way        string `json:"way"`        //商品排序方式
+	PageNumber int    `json:"pageNumber"` //页数
+	PageSize   int    `json:"pageSize"`   //每页容量
 }

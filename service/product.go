@@ -9,11 +9,11 @@ func CreateProduct(p model.Product) (err error) {
 	err = dao.InsertProduct(p)
 	return
 }
-func ShowAllProduct() (err error, p model.Product) {
-	return dao.ListAllProduct()
+func ShowAllProduct(way string, page, pageSize int) (err error, p model.Product) {
+	return dao.ListAllProduct(way, page, pageSize)
 }
-func ShowCategoriesProduct(kind, way string) (err error, p model.Product) {
-	return dao.SearchCategoriesProduct(kind, way)
+func ShowCategoriesProduct(kind, way string, page, pageSize int) (err error, p model.Product) {
+	return dao.SearchCategoriesProduct(kind, way, page, pageSize)
 }
 func ExploreProducts(words, way string, page, pageSize int) (err error, p model.Product) {
 	return dao.FuzzySearchProducts(words, way, page, pageSize)

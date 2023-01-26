@@ -18,14 +18,26 @@ func InsertProduct(p model.Product) error {
 	return err
 }
 
-func ListAllProduct() (err error, p model.Product) {
-	rows, err := DB.Query("select * from product")
+func ListAllProduct(way string, page, pageSize int) (err error, p model.Product) {
+	stmt, err := DB.Prepare("select* from product where kind=? order by ?limit ?,?")
 	if err != nil {
-		log.Printf("when show all products,query error:%v", err)
+		log.Printf("when search all products,prepare error:%v", err)
 		return
 	}
-	for rows.Next() {
-		err = rows.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+	var row *sql.Rows
+	if way == "price" {
+		//如果选择的排序方式是价格，则降序排列
+		row, err = stmt.Query("price desc", page, pageSize)
+	} else {
+		//如果选择的排序方式是评价或者销量，则升序排列
+		row, err = stmt.Query(way, page, pageSize)
+	}
+	if err != nil {
+		log.Printf("when search all products,query error:%v", err)
+		return
+	}
+	for row.Next() {
+		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
 		if err != nil {
 			log.Printf("when show all products,scan error:%v", err)
 			return
@@ -34,8 +46,8 @@ func ListAllProduct() (err error, p model.Product) {
 	return
 }
 
-func SearchCategoriesProduct(kind, way string) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where kind=? order by ?")
+func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p model.Product) {
+	stmt, err := DB.Prepare("select* from product where kind=? order by ?limit ?,?")
 	if err != nil {
 		log.Printf("when search categoried products,prepare error:%v", err)
 		return
@@ -43,13 +55,13 @@ func SearchCategoriesProduct(kind, way string) (err error, p model.Product) {
 	var row *sql.Rows
 	if way == "price" {
 		//如果选择的排序方式是价格，则降序排列
-		row, err = stmt.Query(kind, "price desc")
+		row, err = stmt.Query(kind, "price desc", page, pageSize)
 	} else {
 		//如果选择的排序方式是评价或者销量，则升序排列
-		row, err = stmt.Query(kind, way)
+		row, err = stmt.Query(kind, way, page, pageSize)
 	}
 	if err != nil {
-		log.Printf("when fuzzy search products,query error:%v", err)
+		log.Printf("when search categoried products,query error:%v", err)
 		return
 	}
 	for row.Next() {
