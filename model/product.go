@@ -14,12 +14,8 @@ type Product struct {
 	ShopName      string `json:"shopName"` //店家的名字
 }
 
-type ProductDetail struct {
-	Product    Product //Product结构体内嵌
-	PageNumber int     `json:"pageNumber"`
-}
-
 type ShowProduct struct {
-	Kind        string `json:"kind"` //商品种类
 	ProductName string `json:"productName"`
+	Kind        string `json:"kind"` //商品种类
+	Way         string `json:"way"`  //商品排序方式
 }
