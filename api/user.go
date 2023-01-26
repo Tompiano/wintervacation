@@ -70,7 +70,7 @@ func Register(c *gin.Context) {
 
 }
 func Login(c *gin.Context) {
-
+	
 	UserName := c.PostForm("userName")
 	Password := c.PostForm("password")
 	//如果这些中间有一个没有内容，说明参数请求错误
