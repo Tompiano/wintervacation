@@ -1,17 +1,12 @@
 package api
 
 import (
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
 func Entrance() {
 	r := gin.Default()
-	store := cookie.NewStore([]byte("secret"))
 	r.Use(TokenMiddleWare())
-	r.Use(sessions.Sessions("my_session", store)) //设置session的中间件
-	r.GET("/session", mySession)
 	user := r.Group("/user")
 	{
 		user.POST("/register", Register) //注册
@@ -43,11 +38,12 @@ func Entrance() {
 
 	shop := r.Group("/shop")
 	{
-		shop.POST("") //店铺公告
-		shop.GET("")  //商品展示
+		shop.POST("/writer", AnnouncementWriter) //写店铺公告
+		shop.PUT("/update", AnnouncementUpdate)  //更新店铺公告
+		shop.GET("/show", ShowShopProducts)      //商品展示
 	}
 
-	orders := r.Group("/orders")
+	orders := r.Group("/orders") //订单
 	{
 		orders.GET("")
 	}

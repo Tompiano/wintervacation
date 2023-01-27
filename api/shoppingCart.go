@@ -73,5 +73,5 @@ func Delete(c *gin.Context) {
 }
 
 func Pay(c *gin.Context) {
-	
+
 }
