@@ -7,7 +7,8 @@ import (
 )
 
 func InsertProduct(p model.Product) error {
-	result, err := DB.Exec("insert into product(kind,productName,tile,info,imagePath,price,discountPrice,onSale,shopID)value(?,?,?,?,?,?,?,?,?)")
+	result, err := DB.Exec("insert into product(kind,productName,tile,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?)",
+		p.Kind, p.ProductName, p.Title, p.Info, p.ImagePath, p.Price, p.DiscountPrice, p.Sales, p.ShopName, p.ShopID)
 	if err != nil {
 		log.Printf("when insert prduct informaton error:%v", err)
 		return err
@@ -34,6 +35,10 @@ func ListAllProduct(way string, page, pageSize int) (err error, p model.Product)
 	}
 	if err != nil {
 		log.Printf("when search all products,query error:%v", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
 		return
 	}
 	for row.Next() {
@@ -64,6 +69,10 @@ func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p
 		log.Printf("when search categoried products,query error:%v", err)
 		return
 	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
+		return
+	}
 	for row.Next() {
 		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
 		if err != nil {
@@ -91,6 +100,10 @@ func FuzzySearchProducts(words, way string, page, pageSize int) (err error, p mo
 	}
 	if err != nil {
 		log.Printf("when fuzzy search products,query error:%v", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
 		return
 	}
 	for row.Next() {

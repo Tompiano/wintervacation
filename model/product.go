@@ -1,7 +1,7 @@
 package model
 
 type Product struct {
-	ProductID     string `json:"productID"` //标识着唯一的商品
+	ProductID     int    `json:"productID"` //标识着唯一的商品
 	Kind          string `json:"kind"`      //商品种类
 	ProductName   string `json:"productName"`
 	Title         string `json:"title"`
@@ -10,6 +10,7 @@ type Product struct {
 	Price         int    `json:"price"`
 	DiscountPrice int    `json:"discountPrice"`
 	Sales         int    `json:"Sales"`
+	Score         int    `json:"score"`
 	ShopID        int    `json:"shopID"`   //店家的id,标识着唯一的店家
 	ShopName      string `json:"shopName"` //店家的名字
 }

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"strings"
 	"wintervacation/service"
@@ -39,10 +38,5 @@ func TokenMiddleWare() gin.HandlerFunc {
 		//如果用户存在将用户信息写入上下文
 		c.Set("user", u)
 
-	}
-}
-func handleWare() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("中间件")
 	}
 }

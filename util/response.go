@@ -41,5 +41,6 @@ func ResponseProduct(c *gin.Context, p model.Product) {
 		"price":         p.Price,
 		"discountPrice": p.DiscountPrice,
 		"onSale":        p.Sales,
+		"score":         p.Score,
 	})
 }
