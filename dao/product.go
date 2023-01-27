@@ -20,7 +20,7 @@ func InsertProduct(p model.Product) error {
 }
 
 func ListAllProduct(way string, page, pageSize int) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where kind=? order by ?limit ?,?")
+	stmt, err := DB.Prepare("select* from product where kind=? order by ? and limit ?,?")
 	if err != nil {
 		log.Printf("when search all products,prepare error:%v", err)
 		return
@@ -52,7 +52,7 @@ func ListAllProduct(way string, page, pageSize int) (err error, p model.Product)
 }
 
 func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where kind=? order by ?limit ?,?")
+	stmt, err := DB.Prepare("select* from product where kind=? order by ? and limit ?,?")
 	if err != nil {
 		log.Printf("when search categoried products,prepare error:%v", err)
 		return
@@ -85,7 +85,7 @@ func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p
 }
 
 func FuzzySearchProducts(words, way string, page, pageSize int) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where productName like ? order by ? limit ?,?")
+	stmt, err := DB.Prepare("select* from product where productName like ? order by ? and limit ?,?")
 	if err != nil {
 		log.Printf("when fuzzy search products,prepare error:%v", err)
 		return

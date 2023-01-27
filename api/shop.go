@@ -48,5 +48,29 @@ func AnnouncementUpdate(c *gin.Context) {
 
 }
 func ShowShopProducts(c *gin.Context) {
-	
+	way := c.PostForm("way")                        //选择展示方式：销量、价格、评价
+	shopID, _ := strconv.Atoi(c.PostForm("shopID")) //需要展示的店铺
+	kind := c.PostForm("kind")                      //要展示的种类
+	if way == "" || shopID == 0 || kind == "" {
+		util.ResponseInternalError(c)
+		return
+	}
+	if kind == "all" {
+		//展示所有的商品
+		err, p := service.SearchAllProductsByShopID(way, shopID)
+		if err != nil {
+			util.ResponseInternalError(c)
+			return
+		}
+		util.ResponseProduct(c, p)
+	} else {
+		//分类展示商品
+		err, p := service.ShowProductByShopID(way, kind, shopID)
+		if err != nil {
+			util.ResponseInternalError(c)
+			return
+		}
+		util.ResponseProduct(c, p)
+	}
+
 }
