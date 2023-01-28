@@ -98,13 +98,12 @@ func SelectPhoneIfExist(phone string) (u model.User) {
 }
 
 func UpdatePassword(password, userName string) (err error) {
-	result, err := DB.Exec("update user SET password=? where userName=?", password, userName)
+	_, err = DB.Exec("update user SET password=? where userName=?", password, userName)
 	if err != nil {
 		log.Printf("when update password,err:%v", err)
 		return
 	}
-	result.LastInsertId()
-	result.RowsAffected()
+
 	return
 }
 

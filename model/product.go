@@ -9,7 +9,7 @@ type Product struct {
 	ImagePath     string `json:"imagePath"`
 	Price         int    `json:"price"`
 	DiscountPrice int    `json:"discountPrice"`
-	Sales         int    `json:"Sales"`
+	Sales         int    `json:"sales"`
 	Score         int    `json:"score"`
 	ShopID        int    `json:"shopID"`   //店家的id,标识着唯一的店家
 	ShopName      string `json:"shopName"` //店家的名字

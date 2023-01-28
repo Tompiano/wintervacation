@@ -25,15 +25,15 @@ func Entrance() {
 
 	shoppingCart := r.Group("/shoppingCart") //购物车
 	{
-		shoppingCart.GET("/add", Add)       //将商品加入购物车
-		shoppingCart.PUT("/delete", Delete) //删除购物车中的商品
-		shoppingCart.PUT("/pay", Pay)       //将购物车内商品结账
+		shoppingCart.GET("/add", Add)          //将商品加入购物车
+		shoppingCart.DELETE("/delete", Delete) //删除购物车中的商品
+		shoppingCart.PUT("/pay", Pay)          //将购物车内商品结账
 	}
 
 	comment := r.Group("comment") //商品的评论
 	{
-		comment.POST("/writer")   //写评论
-		comment.DELETE("/delete") //删除评论
+		comment.POST("/writer", Writer)       //写评论
+		comment.PUT("/delete", DeleteComment) //删除评论
 	}
 
 	shop := r.Group("/shop")
