@@ -33,7 +33,7 @@ type PersonInformation struct {
 //添加用户头像相关的信息
 
 type Avatar struct {
-	UserID     string `json:"userID"`
+	UserID     int    `json:"userID"`
 	AvatarName string `json:"avatarName"`
 	AvatarPath string `json:"avatarPath"`
 }

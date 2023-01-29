@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"log"
+	"strconv"
 	"time"
 	"wintervacation/model"
 	"wintervacation/service"
@@ -15,16 +16,10 @@ func Register(c *gin.Context) {
 	UserName := c.PostForm("userName")
 	Password := c.PostForm("password")
 	Phone := c.PostForm("phone")
-	PersonInformation := c.PostForm("personInformation")
 
 	//如果这些中间有一个没有内容，说明参数请求错误
-	if UserName == "" || Password == "" || PersonInformation == "" {
+	if UserName == "" || Password == "" {
 		util.ResponseParaError(c)
-		return
-	}
-	//添加用户信息(用户信息不能超过500字)
-	if len(PersonInformation) > 500 {
-		util.ResponseNormalError(c, 10005, "userInformation error")
 		return
 	}
 	//密码要求在6-20位
@@ -48,11 +43,6 @@ func Register(c *gin.Context) {
 		util.ResponseNormalError(c, 10004, "phone error")
 		return
 	}
-	//用户信息未在500个字符以内
-	if len(PersonInformation) > 500 {
-		util.ResponseNormalError(c, 10005, "personInformation error")
-		return
-	}
 	//判断完后就添加用户的信息
 	err := service.CreateUser(model.User{
 		UserName: UserName,
@@ -70,7 +60,7 @@ func Register(c *gin.Context) {
 
 }
 func Login(c *gin.Context) {
-	
+
 	UserName := c.PostForm("userName")
 	Password := c.PostForm("password")
 	//如果这些中间有一个没有内容，说明参数请求错误
@@ -144,8 +134,8 @@ func Forget(c *gin.Context) {
 		return
 	}
 	//查询phone是否与username相符合
-	u := service.SearchPhone(phone)
-	if u.Phone == "" || u.UserName == "" {
+	u, err := service.SearchPhone(phone)
+	if u.Phone == "" || u.UserName == "" || err != nil {
 		util.ResponseNormalError(c, 405, "Method Not Allowed.")
 		return
 	}
@@ -155,7 +145,7 @@ func Forget(c *gin.Context) {
 		util.ResponseNormalError(c, 10001, "password error")
 		return
 	}
-	err := service.ChangePassword(newPassword, userName)
+	err = service.ChangePassword(newPassword, userName)
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
@@ -166,13 +156,14 @@ func Forget(c *gin.Context) {
 func Avatar(c *gin.Context) {
 	//用户传头像
 	avatar, err := c.FormFile("avatar")
-	userID := c.PostForm("userID")
-	if err != nil || userID == "" {
+	userID, _ := strconv.Atoi(c.PostForm("userID"))
+	if userID == 0 || err != nil {
 		util.ResponseParaError(c)
 		return
 	}
-	avatarName := userID + ".png"
-	err = c.SaveUploadedFile(avatar, "./"+avatarName) //fileHeader和接收文件路径
+	str := strconv.Itoa(userID)
+	avatarName := str + ".png"
+	err = c.SaveUploadedFile(avatar, "./"+avatarName) //fileHeader和接收文件路径 "./"+avatarName
 	if err != nil {
 		log.Printf("upload error:%v", err)
 		util.ResponseNormalError(c, 20002, "upload avatar fail")

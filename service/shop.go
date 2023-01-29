@@ -17,3 +17,9 @@ func ShowProductByShopID(way, kind string, shopID int) (err error, p model.Produ
 func SearchAllProductsByShopID(way string, shopID int) (err error, p model.Product) {
 	return dao.SelectAllProductsByShopID(way, shopID)
 }
+func CreateProductDetail(d model.ProductDetail) (err error) {
+	return dao.InsertProductDetailPhotos(d)
+}
+func ChangeProductDetail(d model.ProductDetail) (err error) {
+	return dao.UpdateDetailPhotos(d)
+}

@@ -7,8 +7,8 @@ import (
 )
 
 func InsertProduct(p model.Product) error {
-	result, err := DB.Exec("insert into product(kind,productName,tile,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?)",
-		p.Kind, p.ProductName, p.Title, p.Info, p.ImagePath, p.Price, p.DiscountPrice, p.Sales, p.ShopName, p.ShopID)
+	result, err := DB.Exec("insert into product(kind,productName,title,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?)",
+		p.Kind, p.ProductName, p.Title, p.Info, p.ImagePath, p.Price, p.DiscountPrice, p.Sales, p.ShopID)
 	if err != nil {
 		log.Printf("when insert prduct informaton error:%v", err)
 		return err
@@ -52,7 +52,7 @@ func ListAllProduct(way string, page, pageSize int) (err error, p model.Product)
 }
 
 func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where kind=? order by ? and limit ?,?")
+	stmt, err := DB.Prepare("select* from product where kind=? order by ?  limit ?,?")
 	if err != nil {
 		log.Printf("when search categoried products,prepare error:%v", err)
 		return
@@ -85,7 +85,7 @@ func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p
 }
 
 func FuzzySearchProducts(words, way string, page, pageSize int) (err error, p model.Product) {
-	stmt, err := DB.Prepare("select* from product where productName like ? order by ? and limit ?,?")
+	stmt, err := DB.Prepare("select* from product where productName like ? order by ?limit ?,?")
 	if err != nil {
 		log.Printf("when fuzzy search products,prepare error:%v", err)
 		return
@@ -110,6 +110,28 @@ func FuzzySearchProducts(words, way string, page, pageSize int) (err error, p mo
 		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
 		if err != nil {
 			log.Printf("when fuzzy search products,scan error:%v", err)
+			return
+		}
+	}
+	return
+}
+
+func SelectDetail(productID int, productName string) (err error, d model.ProductDetail) {
+	stmt, err := DB.Prepare("select* from detail where productID=? and ProductName=?")
+	if err != nil {
+		log.Printf("when select detail ,mysql prepare error:%v ", err)
+		return
+	}
+	row, err := stmt.Query(productID, productName)
+	if err != nil {
+		log.Printf("when select detail,mysql query error:%v ", err)
+		return
+	}
+	defer row.Close()
+	for row.Next() {
+		err = row.Scan(&d.ProductID, &d.ProductName, &d.Detail)
+		if err != nil {
+			log.Printf("when scan error:%v ", err)
 			return
 		}
 	}

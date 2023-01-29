@@ -18,7 +18,7 @@ func TokenMiddleWare() gin.HandlerFunc {
 			c.Abort() //终止程序
 			return
 		}
-		tokenString = tokenString[7:] //提取有效部分
+		tokenString = tokenString[6:] //提取有效部分
 		//解析token并判断解析是否成功和解析后的token是否有效
 		token, claims, err := service.ParseToken(mySignedKey, tokenString, c)
 		if err != nil || token.Valid == false {

@@ -35,9 +35,8 @@ func ParseToken(mySignedKey string, tokenString string, c *gin.Context) (*jwt.To
 
 //忘记密码相关------------------------------------------------------------------------------------------------------------
 
-func SearchPhone(phone string) (u model.User) {
-	u = dao.SelectPhoneIfExist(phone)
-	return
+func SearchPhone(phone string) (u model.User, err error) {
+	return dao.SelectPhoneIfExist(phone)
 }
 func ChangePassword(password, userName string) (err error) {
 	err = dao.UpdatePassword(password, userName)

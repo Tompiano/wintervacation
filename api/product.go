@@ -118,3 +118,19 @@ func Explore(c *gin.Context) {
 	util.ResponseProduct(c, p) //返回商品的所有信息
 
 }
+
+func Detail(c *gin.Context) {
+	productID, _ := strconv.Atoi(c.PostForm("productID"))
+	productName := c.PostForm("productName")
+	if productID == 0 || productName == "" {
+		util.ResponseParaError(c)
+		return
+	}
+
+	err, d := service.SearchDetail(productID, productName)
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
+	}
+	util.ResponseDetail(c, d)
+}

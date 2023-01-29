@@ -72,7 +72,7 @@ func SelectUserNameIfFirPassword(userName string) (u model.User) {
 
 // 忘记密码相关-------------------------------------------------------------------------------------------------------
 
-func SelectPhoneIfExist(phone string) (u model.User) {
+func SelectPhoneIfExist(phone string) (u model.User, err error) {
 	stmt, err := DB.Prepare("select * from user where phone=?")
 	if err != nil {
 		log.Printf("when select phone if exist err:%v", err)

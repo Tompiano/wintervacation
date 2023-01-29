@@ -21,3 +21,10 @@ type ShowProduct struct {
 	PageNumber int    `json:"pageNumber"` //页数
 	PageSize   int    `json:"pageSize"`   //每页容量
 }
+
+type ProductDetail struct {
+	ProductID   int    `json:"productID"` //商品的ID
+	ProductName string `json:"productName"`
+	Detail      string `json:"detail"` //商品详情页的图片路径
+
+}

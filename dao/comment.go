@@ -25,3 +25,28 @@ func UpdateComment(commentID int, content string) (err error) {
 	}
 	return
 }
+
+func SelectAllComments(productID, parentID int) (err error, t model.Comment) {
+	stmt, err := DB.Prepare("select*from comment where productID=? and parentID=?")
+	if err != nil {
+		log.Printf("when select all comments,mysql prepare error:%v ", err)
+		return
+	}
+	row, err := stmt.Query(productID, parentID)
+	if err != nil {
+		log.Printf("when select all comments,mysql query error:%v ", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
+		return
+	}
+	for row.Next() {
+		err = row.Scan(&t.CommentID, &t.Content, &t.ProductID, t.UserID, &t.ParentID)
+		if err != nil {
+			log.Printf("when select all comments,scan error:%v ", err)
+			return
+		}
+	}
+	return
+}

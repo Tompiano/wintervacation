@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"strconv"
 	"wintervacation/model"
 	"wintervacation/service"
@@ -73,4 +74,57 @@ func ShowShopProducts(c *gin.Context) {
 		util.ResponseProduct(c, p)
 	}
 
+}
+func ProductDetail(c *gin.Context) {
+	file, err := c.FormFile("detail")
+	productName := c.PostForm("productName")
+	productID, _ := strconv.Atoi(c.PostForm("productID"))
+	if err != nil || productName == "" || productID == 0 {
+		util.ResponseParaError(c)
+		return
+	}
+	fileName := productName + ".detail.png"
+	err = c.SaveUploadedFile(file, "./"+fileName) //上传文件到本地
+	if err != nil {
+		log.Printf("when upload detail picture error:%v", err)
+		util.ResponseNormalError(c, 20003, "upload shop picture fail") //上传商品图片失败
+		return
+	}
+	Detail := "./" + fileName
+	err = service.CreateProductDetail(model.ProductDetail{
+		ProductID:   productID,
+		ProductName: productName,
+		Detail:      Detail,
+	})
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
+	}
+
+}
+func DetailUpdate(c *gin.Context) {
+	file, err := c.FormFile("detail") //新的图片信息
+	productName := c.PostForm("productName")
+	productID, _ := strconv.Atoi(c.PostForm("productID"))
+	if err != nil || productName == "" || productID == 0 {
+		util.ResponseParaError(c)
+		return
+	}
+	fileName := productName + ".detail.png"
+	err = c.SaveUploadedFile(file, "./"+fileName) //上传文件到本地
+	if err != nil {
+		log.Printf("when upload detail picture error:%v", err)
+		util.ResponseNormalError(c, 20003, "upload shop picture fail") //上传商品图片失败
+		return
+	}
+	Detail := "./" + fileName
+	err = service.ChangeProductDetail(model.ProductDetail{
+		ProductID:   productID,
+		ProductName: productName,
+		Detail:      Detail,
+	})
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
+	}
 }

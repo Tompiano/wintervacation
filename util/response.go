@@ -44,3 +44,10 @@ func ResponseProduct(c *gin.Context, p model.Product) {
 		"score":         p.Score,
 	})
 }
+func ResponseDetail(c *gin.Context, d model.ProductDetail) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":      200,
+		"productName": d.ProductName,
+		"DetailPath":  d.Detail,
+	})
+}

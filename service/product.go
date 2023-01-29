@@ -18,3 +18,6 @@ func ShowCategoriesProduct(kind, way string, page, pageSize int) (err error, p m
 func ExploreProducts(words, way string, page, pageSize int) (err error, p model.Product) {
 	return dao.FuzzySearchProducts(words, way, page, pageSize)
 }
+func SearchDetail(productID int, productName string) (err error, d model.ProductDetail) {
+	return dao.SelectDetail(productID, productName)
+}

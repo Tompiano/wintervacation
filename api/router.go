@@ -6,7 +6,7 @@ import (
 
 func Entrance() {
 	r := gin.Default()
-	r.Use(TokenMiddleWare())
+	//r.Use(TokenMiddleWare())
 	user := r.Group("/user")
 	{
 		user.POST("/register", Register) //注册
@@ -21,6 +21,7 @@ func Entrance() {
 		item.POST("/creator", Creator) //创建商品(店家用于添加商品)
 		item.GET("/show", Show)        //展示商品
 		item.POST("/explore", Explore) //搜索商品
+		item.GET("/detail", Detail)    //商品详情页的展示
 	}
 
 	shoppingCart := r.Group("/shoppingCart") //购物车
@@ -38,9 +39,11 @@ func Entrance() {
 
 	shop := r.Group("/shop")
 	{
-		shop.POST("/writer", AnnouncementWriter) //写店铺公告
-		shop.PUT("/update", AnnouncementUpdate)  //更新店铺公告
-		shop.GET("/show", ShowShopProducts)      //商品展示
+		shop.POST("/writer", AnnouncementWriter)   //写店铺公告
+		shop.PUT("/update", AnnouncementUpdate)    //更新店铺公告
+		shop.GET("/show", ShowShopProducts)        //商品展示
+		shop.POST("/detail_writer", ProductDetail) //商品详情页图片的录入
+		shop.PUT("/detail_update", DetailUpdate)   //商品详情页的图片更新
 	}
 
 	orders := r.Group("/orders") //订单

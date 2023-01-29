@@ -88,3 +88,22 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Produ
 	}
 	return
 }
+func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
+	result, err := DB.Exec("insert into detail(productID,productName,detail)values(?,?,?,?)", &d.ProductID, &d.ProductName, &d.Detail)
+	if err != nil {
+		log.Printf("when insert product detail,mysql exec error:%v ", err)
+		return
+	}
+	result.LastInsertId()
+	result.RowsAffected()
+	return
+}
+
+func UpdateDetailPhotos(d model.ProductDetail) (err error) {
+	_, err = DB.Exec("update detail set detail where ProductID=? and ProductName=?", &d.Detail, &d.ProductID, &d.ProductName)
+	if err != nil {
+		log.Printf("when update product detail,mysql exec error:%v ", err)
+		return
+	}
+	return
+}
