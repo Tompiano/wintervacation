@@ -54,3 +54,17 @@ func ResponseDetail(c *gin.Context, d model.ProductDetail) {
 func ResponseComments(c *gin.Context, Children interface{}) {
 	c.JSON(http.StatusOK, Children)
 }
+func ResponseCollection(c *gin.Context, e model.Collection) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":        200,
+		"kind":          e.Kind,
+		"productName":   e.ProductName,
+		"title":         e.Title,
+		"info":          e.Info,
+		"imagePath":     e.ImagePath,
+		"price":         e.Price,
+		"discountPrice": e.DiscountPrice,
+		"onSale":        e.Sales,
+		"score":         e.Score,
+	})
+}

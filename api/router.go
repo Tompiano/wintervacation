@@ -49,9 +49,9 @@ func Entrance() {
 
 	collection := r.Group("/collection")
 	{
-		collection.POST("/join", Join) //加入收藏夹
-		collection.DELETE("/delete")   //删除收藏夹中的内容
-		collection.GET("/show")        //查看收藏夹
+		collection.POST("/join", Join)                 //加入收藏夹
+		collection.DELETE("/delete", DeleteCollection) //删除收藏夹中的内容
+		collection.GET("/show", LookCollection)        //查看收藏夹
 	}
 
 	orders := r.Group("/orders") //订单
