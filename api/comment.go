@@ -47,14 +47,16 @@ func DeleteComment(c *gin.Context) {
 
 func LookComment(c *gin.Context) {
 	productID, _ := strconv.Atoi(c.PostForm("productID"))
-	parentID, _ := strconv.Atoi(c.PostForm("parentID"))
-	userID, _ := strconv.Atoi(c.PostForm("userID"))
-	if productID == 0 || userID == 0 {
+	if productID == 0 {
 		util.ResponseParaError(c)
 		return
 	}
-	//首先展示的是评论的第一层
-	for parentID = 0; parentID < 10; parentID++ {
-
+	//多级评论：遍历最上层的评论，找到每个上层评论的下级评论
+	var t model.Comment
+	err, Tree := service.SearchComments(productID, 0, &t)
+	if err != nil {
+		util.ResponseInternalError(c)
+		return
 	}
+	util.ResponseComments(c, Tree)
 }

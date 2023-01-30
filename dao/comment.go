@@ -26,7 +26,8 @@ func UpdateComment(commentID int, content string) (err error) {
 	return
 }
 
-func SelectAllComments(productID, parentID int) (err error, t model.Comment) {
+func SelectAllComments(productID, parentID int, t *model.Comment) (err error, Children []*model.Comment) {
+
 	stmt, err := DB.Prepare("select*from comment where productID=? and parentID=?")
 	if err != nil {
 		log.Printf("when select all comments,mysql prepare error:%v ", err)
@@ -37,6 +38,7 @@ func SelectAllComments(productID, parentID int) (err error, t model.Comment) {
 		log.Printf("when select all comments,mysql query error:%v ", err)
 		return
 	}
+
 	defer row.Close()
 	if err = row.Err(); err != nil {
 		return
@@ -47,6 +49,15 @@ func SelectAllComments(productID, parentID int) (err error, t model.Comment) {
 			log.Printf("when select all comments,scan error:%v ", err)
 			return
 		}
+		child := model.Comment{
+			CommentID: t.CommentID,
+			ProductID: t.ProductID,
+			UserID:    t.UserID,
+			Children:  []*model.Comment{},
+		}
+		Children = append(Children, &child)
+		SelectAllComments(productID, t.UserID, &child)
+
 	}
 	return
 }

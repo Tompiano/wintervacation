@@ -35,6 +35,7 @@ func Entrance() {
 	{
 		comment.POST("/writer", Writer)       //写评论
 		comment.PUT("/delete", DeleteComment) //删除评论
+		comment.GET("/look", LookComment)     //查看评论
 	}
 
 	shop := r.Group("/shop")
@@ -44,6 +45,13 @@ func Entrance() {
 		shop.GET("/show", ShowShopProducts)        //商品展示
 		shop.POST("/detail_writer", ProductDetail) //商品详情页图片的录入
 		shop.PUT("/detail_update", DetailUpdate)   //商品详情页的图片更新
+	}
+
+	collection := r.Group("/collection")
+	{
+		collection.POST("/join", Join) //加入收藏夹
+		collection.DELETE("/delete")   //删除收藏夹中的内容
+		collection.GET("/show")        //查看收藏夹
 	}
 
 	orders := r.Group("/orders") //订单

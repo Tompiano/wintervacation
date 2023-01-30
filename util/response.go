@@ -51,3 +51,6 @@ func ResponseDetail(c *gin.Context, d model.ProductDetail) {
 		"DetailPath":  d.Detail,
 	})
 }
+func ResponseComments(c *gin.Context, Children interface{}) {
+	c.JSON(http.StatusOK, Children)
+}
