@@ -87,3 +87,13 @@ func ResponseInformation(c *gin.Context, userID, total int) {
 		"total":  total,
 	})
 }
+func OrdersShow(c *gin.Context, t model.Orders, info string) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":        info,
+		"time":          t.Time,
+		"userID":        t.UserID,
+		"address":       t.Address,
+		"paymentAmount": t.PaymentAmount,
+		"payMethod":     t.PayMethod,
+	})
+}

@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12249e9d-0a88-4dff-a970-048eb91406e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/orders.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/orders.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/orders.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/orders.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/shoppingCart.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/shoppingCart.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/shoppingCart.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/orders.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/orders.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/orders.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/orders.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
