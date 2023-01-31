@@ -35,7 +35,3 @@ func SelectOrdersPrepare(userID int) (err error, m model.Address, addr map[int]s
 	}
 	return
 }
-
-func SelectOrdersByUserID(userID int) (err error, o model.Orders) {
-	stmt, err := DB.Prepare("select*from ")
-}

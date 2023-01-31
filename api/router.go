@@ -57,7 +57,10 @@ func Entrance() {
 
 	orders := r.Group("/orders") //订单
 	{
-		orders.GET("")
+		orders.GET("/prepare", Prepare)        //订单准备
+		orders.GET("/show", OrdersShow)        //订单展示
+		orders.GET("/success", OrderSuccess)   //订单已支付状态展示
+		orders.GET("/complete", OrderComplete) //订单已收货状态展示
 	}
 
 	r.Run()
