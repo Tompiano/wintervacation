@@ -7,8 +7,8 @@ import (
 )
 
 func InsertProduct(p model.Product) error {
-	result, err := DB.Exec("insert into product(kind,productName,title,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?)",
-		p.Kind, p.ProductName, p.Title, p.Info, p.ImagePath, p.Price, p.DiscountPrice, p.Sales, p.ShopID)
+	result, err := DB.Exec("insert into product(kind,productName,title,info,imagePath,price,discountPrice,Sales,shopID,number)value(?,?,?,?,?,?,?,?,?)",
+		p.Kind, p.ProductName, p.Title, p.Info, p.ImagePath, p.Price, p.DiscountPrice, p.Sales, p.ShopID, p.Number)
 	if err != nil {
 		log.Printf("when insert prduct informaton error:%v", err)
 		return err
@@ -42,7 +42,7 @@ func ListAllProduct(way string, page, pageSize int) (err error, p model.Product)
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales, &p.Number)
 		if err != nil {
 			log.Printf("when show all products,scan error:%v", err)
 			return
@@ -74,7 +74,7 @@ func SearchCategoriesProduct(kind, way string, page, pageSize int) (err error, p
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales, &p.Number)
 		if err != nil {
 			log.Printf("when show categoried products,scan error:%v", err)
 			return
@@ -107,7 +107,7 @@ func FuzzySearchProducts(words, way string, page, pageSize int) (err error, p mo
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales, &p.Number)
 		if err != nil {
 			log.Printf("when fuzzy search products,scan error:%v", err)
 			return

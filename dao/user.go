@@ -134,3 +134,16 @@ func InsertPersonAvatar(a model.Avatar) (err error) {
 	result.RowsAffected()
 	return
 }
+
+//添加地址相关的-----------------------------------------------------------------------------------------------------------
+
+func InsertAddress(userID int, address string) (err error) {
+	result, err := DB.Exec("insert into address(userID,address)value(?,?)", userID, address)
+	if err != nil {
+		log.Printf("when insert into address error:%v ", err)
+		return
+	}
+	result.LastInsertId()
+	result.RowsAffected()
+	return
+}

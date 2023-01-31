@@ -56,3 +56,9 @@ func CreatePersonAvatar(a model.Avatar) (err error) {
 	err = dao.InsertPersonAvatar(a)
 	return
 }
+
+//添加地址相关-------------------------------------------------------------------------------------------------------------
+
+func CreateAddress(userID int, address string) (err error) {
+	return dao.InsertAddress(userID, address)
+}

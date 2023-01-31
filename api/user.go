@@ -182,3 +182,19 @@ func Avatar(c *gin.Context) {
 	}
 	util.ResponseOK(c)
 }
+
+func AddressAdd(c *gin.Context) {
+	userID, _ := strconv.Atoi(c.PostForm("userID"))
+	address := c.PostForm("address")
+	if userID == 0 || address == "" {
+		util.ResponseParaError(c)
+		return
+	}
+
+	err := service.CreateAddress(userID, address)
+	if err != nil {
+		util.ResponseOK(c)
+		return
+	}
+
+}

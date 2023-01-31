@@ -68,3 +68,22 @@ func ResponseCollection(c *gin.Context, e model.Collection) {
 		"score":         e.Score,
 	})
 }
+func ResponseOrdersPrepare(c *gin.Context, userID int, address string) {
+	c.JSON(http.StatusOK, gin.H{
+		"userID":  userID,
+		"address": address,
+	})
+}
+func ResponsePay(c *gin.Context, productID, number, price int) {
+	c.JSON(http.StatusOK, gin.H{
+		"productID": productID,
+		"number":    number,
+		"price":     price,
+	})
+}
+func ResponseInformation(c *gin.Context, userID, total int) {
+	c.JSON(http.StatusOK, gin.H{
+		"userID": userID,
+		"total":  total,
+	})
+}

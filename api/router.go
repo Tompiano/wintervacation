@@ -9,11 +9,12 @@ func Entrance() {
 	//r.Use(TokenMiddleWare())
 	user := r.Group("/user")
 	{
-		user.POST("/register", Register) //注册
-		user.POST("/add", Person)        //添加个人信息
-		user.POST("/avatar", Avatar)     //添加用户头像
-		user.GET("/login", Login)        //登录
-		user.PUT("/forget", Forget)      //忘记密码
+		user.POST("/register", Register)     //注册
+		user.POST("/add", Person)            //添加个人信息
+		user.POST("/addressAdd", AddressAdd) //添加用户的地址
+		user.POST("/avatar", Avatar)         //添加用户头像
+		user.GET("/login", Login)            //登录
+		user.PUT("/forget", Forget)          //忘记密码
 	}
 
 	item := r.Group("/product")

@@ -25,3 +25,6 @@ func DeleteAllProducts() (err error) {
 func DeleteSomeProducts(productID int) (err error) {
 	return dao.DeleteSomeProductsInCart(productID)
 }
+func SearchProductIfEnough(productID, number int) (err error, judge bool, p model.Product) {
+	return dao.SelectProductsIfEnough(productID, number)
+}

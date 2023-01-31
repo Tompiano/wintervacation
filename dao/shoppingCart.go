@@ -81,3 +81,33 @@ func DeleteSomeProductsInCart(productID int) (err error) {
 	result.RowsAffected()
 	return
 }
+func SelectProductsIfEnough(productID, number int) (err error, judge bool, p model.Product) {
+
+	stmt, err := DB.Prepare("select*from cart where productID=?")
+	if err != nil {
+		log.Printf("when prepare error:%v ", err)
+		return
+	}
+	row, err := stmt.Query(productID)
+	if err != nil {
+		log.Printf("when query error:%v ", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
+		return
+	}
+	for row.Next() {
+		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales, &p.Number)
+		if err != nil {
+			log.Printf("when scan error:%v ", err)
+			return
+		}
+		if p.Number < number {
+			judge = false
+		} else {
+			judge = true
+		}
+	}
+	return
+}
