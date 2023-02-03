@@ -25,14 +25,14 @@ func Entrance() {
 		item.GET("/detail", Detail)    //商品详情页的展示
 	}
 
-	shoppingCart := r.Group("/shoppingCart") //购物车
+	shoppingCart := r.Group("/shopping_cart") //购物车
 	{
 		shoppingCart.GET("/add", Add)          //将商品加入购物车
 		shoppingCart.DELETE("/delete", Delete) //删除购物车中的商品
-		shoppingCart.PUT("/pay", Pay)          //将购物车内商品结账
+		shoppingCart.GET("/pay", Pay)          //将购物车内商品结账
 	}
 
-	comment := r.Group("comment") //商品的评论
+	comment := r.Group("/comment") //商品的评论
 	{
 		comment.POST("/writer", Writer)       //写评论
 		comment.PUT("/delete", DeleteComment) //删除评论
@@ -57,9 +57,9 @@ func Entrance() {
 
 	orders := r.Group("/orders") //订单
 	{
-		orders.GET("/prepare", Prepare)        //订单准备
-		orders.GET("/show", OrdersShow)        //订单展示
-		orders.GET("/success", OrderSuccess)   //订单已支付状态展示
+		orders.GET("/prepare", Prepare)        //选择收货地址
+		orders.GET("/commit", Commit)          //提交订单
+		orders.GET("/success", OrderSuccess)   //订单已支付状态显示
 		orders.GET("/complete", OrderComplete) //订单已收货状态展示
 	}
 

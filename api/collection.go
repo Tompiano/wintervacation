@@ -9,15 +9,14 @@ import (
 )
 
 func Join(c *gin.Context) {
-	userID, _ := strconv.Atoi(c.PostForm("userID"))
 	e := model.Collection{}
 	err := c.ShouldBind(&e)
-	if err != nil || userID == 0 {
+	if err != nil {
 		util.ResponseParaError(c)
 		return
 	}
 	err = service.JoinCollection(model.Collection{
-		UserID:        userID,
+		UserID:        e.UserID,
 		ProductID:     e.ProductID,
 		ProductName:   e.ProductName,
 		Kind:          e.Kind,

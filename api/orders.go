@@ -9,7 +9,7 @@ import (
 	"wintervacation/util"
 )
 
-//订单准备页面
+//选择地址
 
 func Prepare(c *gin.Context) {
 	userID, _ := strconv.Atoi(c.PostForm("userID"))
@@ -32,9 +32,9 @@ func Prepare(c *gin.Context) {
 
 }
 
-//订单展示页面
+//提交订单
 
-func OrdersShow(c *gin.Context) {
+func Commit(c *gin.Context) {
 	amount, _ := strconv.Atoi(c.PostForm("amount"))
 	userID, _ := strconv.Atoi(c.PostForm("userID")) //用户的ID
 	address := c.PostForm("address")                //用户选择的地址
@@ -51,7 +51,7 @@ func OrdersShow(c *gin.Context) {
 		PaymentAmount: amount,
 		PayMethod:     payMethod,
 	}
-	util.OrdersShow(c, t, "已确认") //展示订单
+	util.OrdersShow(c, t, "已确认") //展示订单状态
 }
 
 //订单成功页面
@@ -75,9 +75,9 @@ func OrderSuccess(c *gin.Context) {
 		PayMethod:     payMethod,
 	}
 	if judge != "true" {
-		util.ResponseNormalError(c, 30002, "no pay")
+		util.OrdersShow(c, t, "未支付")
 	}
-	util.OrdersShow(c, t, "已支付") //展示订单
+	util.OrdersShow(c, t, "已支付") //展示订单状态
 
 }
 
@@ -102,8 +102,8 @@ func OrderComplete(c *gin.Context) {
 		PayMethod:     payMethod,
 	}
 	if judge != "true" {
-		util.ResponseNormalError(c, 30002, "no pay")
+		util.OrdersShow(c, t, "未收货")
 	}
-	util.OrdersShow(c, t, "已收货") //展示订单
+	util.OrdersShow(c, t, "已收货") //展示订单状态
 
 }

@@ -39,7 +39,7 @@ func DeleteComment(c *gin.Context) {
 	}
 	err := service.DeleteComment(commentID, content)
 	if err != nil {
-		util.ResponseParaError(c)
+		util.ResponseInternalError(c)
 		return
 	}
 	util.ResponseOK(c)

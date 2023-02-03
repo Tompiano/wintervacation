@@ -103,9 +103,9 @@ func Pay(c *gin.Context) {
 		total += p.Price * number   //计算总金额
 		price[i] = p.Price * number //计算每一种商品的金额
 	}
-	util.ResponseInformation(c, userID, total)
+	util.ResponseInformation(c, userID, total) //返回userID和总金额
 	for i := 0; i < kindNumber; i++ {
-		util.ResponsePay(c, productID[i], numbers[i], price[i])
+		util.ResponsePay(c, productID[i], numbers[i], price[i]) //返回选中的商品的信息
 	}
 
 }
