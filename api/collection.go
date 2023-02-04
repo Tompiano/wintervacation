@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
 	"strconv"
 	"wintervacation/model"
 	"wintervacation/service"
@@ -64,13 +63,12 @@ func LookCollection(c *gin.Context) {
 	var details []*model.Product //用map来装所有的product的详细信息
 	for _, products := range collections {
 		//利用收藏夹中的productID找到商品的全部信息，将商品的全部信息返回
-		log.Println(products.CollectionID, products.UserID, products.ProductID)
 		err, productDetails := service.SearchProducts(products.ProductID)
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
 		}
-		log.Println(products.ProductID)
+		
 		details = append(details, productDetails...)
 
 	}
