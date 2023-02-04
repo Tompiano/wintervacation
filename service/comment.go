@@ -11,6 +11,6 @@ func AddComment(m model.Comment) (err error) {
 func DeleteComment(commentID int, content string) (err error) {
 	return dao.UpdateComment(commentID, content)
 }
-func SearchComments(productID, parentID int, t *model.Comment) (err error, Children []*model.Comment) {
-	return dao.SelectAllComments(productID, parentID, t)
+func SearchComments(productID int, t *model.Comment) (err error, Children []*model.Comment) {
+	return dao.SelectAllComments(productID, t)
 }

@@ -8,6 +8,8 @@ import (
 	"wintervacation/util"
 )
 
+//加入收藏
+
 func Join(c *gin.Context) {
 	e := model.Collection{}
 	err := c.ShouldBind(&e)
@@ -37,6 +39,8 @@ func Join(c *gin.Context) {
 
 }
 
+//取消收藏
+
 func DeleteCollection(c *gin.Context) {
 	ProductID, _ := strconv.Atoi(c.PostForm("productID"))
 	if ProductID == 0 {
@@ -50,6 +54,8 @@ func DeleteCollection(c *gin.Context) {
 	}
 	util.ResponseOK(c)
 }
+
+//查看收藏列表
 
 func LookCollection(c *gin.Context) {
 	userID, _ := strconv.Atoi(c.PostForm("userID"))

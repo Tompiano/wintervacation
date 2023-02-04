@@ -51,12 +51,34 @@ func LookComment(c *gin.Context) {
 		util.ResponseParaError(c)
 		return
 	}
-	//多级评论：遍历最上层的评论，找到每个上层评论的下级评论
+
+	//多级评论：遍历最上层的评论，依次找到每个上层评论的下级评论
 	var t model.Comment
-	err, Tree := service.SearchComments(productID, 0, &t)
+
+	//得到该product的评论
+	err, allComments := service.SearchComments(productID, &t)
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
 	}
-	util.ResponseComments(c, Tree)
+	//将扁平数据转化为树型数据
+	var tree []*model.Comment
+	IdMapTree := make(map[int]*model.Comment) //建立map表，用于收集所有的节点
+
+	for _, item := range allComments {
+
+		//收集第一层评论
+		if item.ParentID == 0 {
+			tree = append(tree, item)
+		} else {
+			//收集子评论
+			IdMapTree[item.ParentID].Children = append(IdMapTree[item.ParentID].Children, item)
+		}
+		//把节点加入map表中
+		IdMapTree[item.CommentID] = item
+
+	}
+
+	util.ResponseComments(c, IdMapTree)
+
 }
