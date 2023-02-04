@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"strconv"
 	"wintervacation/model"
 	"wintervacation/service"
@@ -11,25 +12,16 @@ import (
 //加入收藏
 
 func Join(c *gin.Context) {
-	e := model.Collection{}
-	err := c.ShouldBind(&e)
-	if err != nil {
+	userID, _ := strconv.Atoi(c.PostForm("userID"))
+	productID, _ := strconv.Atoi(c.PostForm("productID"))
+	if userID == 0 || productID == 0 {
 		util.ResponseParaError(c)
 		return
 	}
-	err = service.JoinCollection(model.Collection{
-		UserID:        e.UserID,
-		ProductID:     e.ProductID,
-		ProductName:   e.ProductName,
-		Kind:          e.Kind,
-		Title:         e.Title,
-		Info:          e.Info,
-		ImagePath:     e.ImagePath,
-		Price:         e.Price,
-		DiscountPrice: e.DiscountPrice,
-		Sales:         e.Sales,
-		ShopID:        e.ShopID,
-		Score:         e.Score,
+	//将userID和productID插入到数据库中
+	err := service.JoinCollection(model.Collection{
+		UserID:    userID,
+		ProductID: productID,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)
@@ -63,10 +55,25 @@ func LookCollection(c *gin.Context) {
 		util.ResponseParaError(c)
 		return
 	}
-	err, e := service.LookCollections(userID)
+	//获取该用户收藏夹中的所有productID
+	err, collections := service.LookCollections(userID)
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
 	}
-	util.ResponseCollection(c, e)
+	var details []*model.Product //用map来装所有的product的详细信息
+	for _, products := range collections {
+		//利用收藏夹中的productID找到商品的全部信息，将商品的全部信息返回
+		log.Println(products.CollectionID, products.UserID, products.ProductID)
+		err, productDetails := service.SearchProducts(products.ProductID)
+		if err != nil {
+			util.ResponseInternalError(c)
+			return
+		}
+		log.Println(products.ProductID)
+		details = append(details, productDetails...)
+
+	}
+	//返回该用户下的所有收藏的商品的信息
+	util.ResponseCollection(c, details)
 }

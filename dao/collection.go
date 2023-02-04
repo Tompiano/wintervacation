@@ -6,8 +6,7 @@ import (
 )
 
 func InsetCollection(e model.Collection) (err error) {
-	result, err := DB.Exec("insert into collection(userID,productID,kind,productName,title,info,imagePath,price,discountPrice,Sales,shopID,score)",
-		&e.UserID, &e.ProductID, &e.Kind, &e.ProductName, &e.Title, e.Info, e.ImagePath, &e.Price, &e.DiscountPrice, &e.Sales, &e.ShopID, &e.ShopID, &e.Score)
+	result, err := DB.Exec("insert into collection(userID,productID)values(?,?)", &e.UserID, &e.ProductID)
 	if err != nil {
 		log.Printf("when insert collection error:%v ", err)
 		return
@@ -26,10 +25,10 @@ func DeleteCollections(productID int) (err error) {
 	return
 }
 
-func SelectCollection(userID int) (Err error, e model.Collection) {
+func SelectCollection(userID int) (Err error, allCollections []*model.Collection) {
 	stmt, err := DB.Prepare("select*from collection where userID=?")
 	if err != nil {
-		log.Printf("when prepare error:%v ", err)
+		log.Printf("when selct collection prepare error:%v ", err)
 		return
 	}
 	defer stmt.Close()
@@ -42,12 +41,63 @@ func SelectCollection(userID int) (Err error, e model.Collection) {
 	if err = row.Err(); err != nil {
 		return
 	}
+
 	for row.Next() {
-		err = row.Scan(&e.UserID, &e.Info, &e.Kind, &e.Sales, &e.Price, &e.ProductID, &e.ShopID, &e.ImagePath, &e.Title, &e.DiscountPrice, &e.ShopName, &e.ProductName)
+		var e model.Collection
+		err = row.Scan(&e.CollectionID, &e.UserID, &e.ProductID)
 		if err != nil {
-			log.Printf("when scan error:%v ", err)
+			log.Printf("when selct collection scan error:%v ", err)
 			return
 		}
+		everyCollection := model.Collection{
+			CollectionID: e.CollectionID,
+			UserID:       e.UserID,
+			ProductID:    e.ProductID,
+		}
+		allCollections = append(allCollections, &everyCollection)
+
+	}
+	return
+}
+func SelectProductsInCollection(productID int) (err error, products []*model.Product) {
+	stmt, err := DB.Prepare("select*from product where productID=?")
+	if err != nil {
+		log.Printf("when select products prepare error:%v ", err)
+		return
+	}
+	defer stmt.Close()
+	row, err := stmt.Query(productID)
+	if err != nil {
+		log.Printf("when select products query error:%v ", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
+		return
+	}
+
+	for row.Next() {
+		var p model.Product
+		err = row.Scan(&p.ProductID, &p.Kind, &p.ProductName, &p.Title, &p.Info, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Sales, &p.ShopID, &p.Score, &p.Number)
+		if err != nil {
+			log.Printf("when select product scan error:%v ", err)
+			return
+		}
+		everyProduct := model.Product{
+			ProductID:     productID,
+			Kind:          p.Kind,
+			ProductName:   p.ProductName,
+			Title:         p.Title,
+			Info:          p.Info,
+			ImagePath:     p.ImagePath,
+			Price:         p.Price,
+			DiscountPrice: p.DiscountPrice,
+			Sales:         p.Sales,
+			ShopID:        p.ShopID,
+			Score:         p.Score,
+			Number:        p.Number,
+		}
+		products = append(products, &everyProduct)
 	}
 	return
 }

@@ -46,6 +46,7 @@ func DeleteComment(c *gin.Context) {
 }
 
 func LookComment(c *gin.Context) {
+
 	productID, _ := strconv.Atoi(c.PostForm("productID"))
 	if productID == 0 {
 		util.ResponseParaError(c)
