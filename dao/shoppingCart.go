@@ -98,7 +98,7 @@ func SelectProductsIfEnough(productID, number int) (err error, judge bool, p mod
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales, &p.Number)
+		err = row.Scan(&p.ProductID, &p.Kind, &p.ProductName, &p.Title, &p.Info, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Sales, &p.ShopID, &p.Score, &p.Number)
 		if err != nil {
 			log.Printf("when scan error:%v ", err)
 			return

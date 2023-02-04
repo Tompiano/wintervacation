@@ -68,7 +68,7 @@ func LookCollection(c *gin.Context) {
 			util.ResponseInternalError(c)
 			return
 		}
-		
+
 		details = append(details, productDetails...)
 
 	}

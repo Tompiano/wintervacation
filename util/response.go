@@ -30,26 +30,11 @@ func ResponseOK(c *gin.Context) {
 		"info":   "success",
 	})
 }
-func ResponseProduct(c *gin.Context, p model.Product) {
-	c.JSON(http.StatusOK, gin.H{
-		"status":        200,
-		"kind":          p.Kind,
-		"productName":   p.ProductName,
-		"title":         p.Title,
-		"info":          p.Info,
-		"imagePath":     p.ImagePath,
-		"price":         p.Price,
-		"discountPrice": p.DiscountPrice,
-		"onSale":        p.Sales,
-		"score":         p.Score,
-	})
+func ResponseProduct(c *gin.Context, products interface{}) {
+	c.JSON(http.StatusOK, products)
 }
-func ResponseDetail(c *gin.Context, d model.ProductDetail) {
-	c.JSON(http.StatusOK, gin.H{
-		"status":      200,
-		"productName": d.ProductName,
-		"DetailPath":  d.Detail,
-	})
+func ResponseDetail(c *gin.Context, details interface{}) {
+	c.JSON(http.StatusOK, details)
 }
 func ResponseComments(c *gin.Context, Children interface{}) {
 	c.JSON(http.StatusOK, Children)

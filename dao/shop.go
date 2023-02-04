@@ -48,7 +48,7 @@ func SelectProductByShopID(way, kind string, shopID int) (err error, p model.Pro
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+		err = row.Scan(&p.ProductID, &p.Kind, &p.ProductName, &p.Title, &p.Info, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Sales, &p.ShopID, &p.Score, &p.Number)
 		if err != nil {
 			log.Printf("when search products by shopID,scan error:%v", err)
 			return
@@ -80,7 +80,7 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Produ
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&p.Kind, &p.ProductName, &p.ShopName, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Info, &p.Title, &p.Sales)
+		err = row.Scan(&p.ProductID, &p.Kind, &p.ProductName, &p.Title, &p.Info, &p.ImagePath, &p.Price, &p.DiscountPrice, &p.Sales, &p.ShopID, &p.Score, &p.Number)
 		if err != nil {
 			log.Printf("when search all products by shopID,scan error:%v", err)
 			return
@@ -89,7 +89,7 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Produ
 	return
 }
 func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
-	result, err := DB.Exec("insert into detail(productID,productName,detail)values(?,?,?,?)", &d.ProductID, &d.ProductName, &d.Detail)
+	result, err := DB.Exec("insert into detail(productID,productName,detail)values(?,?,?,?)", &d.ProductID, &d.ProductName, &d.DetailPath)
 	if err != nil {
 		log.Printf("when insert product detail,mysql exec error:%v ", err)
 		return
@@ -100,7 +100,7 @@ func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
 }
 
 func UpdateDetailPhotos(d model.ProductDetail) (err error) {
-	_, err = DB.Exec("update detail set detail where ProductID=? and ProductName=?", &d.Detail, &d.ProductID, &d.ProductName)
+	_, err = DB.Exec("update detail set detail where ProductID=? and ProductName=?", &d.DetailPath, &d.ProductID, &d.ProductName)
 	if err != nil {
 		log.Printf("when update product detail,mysql exec error:%v ", err)
 		return

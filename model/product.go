@@ -12,8 +12,8 @@ type Product struct {
 	Sales         int    `json:"sales"`
 	ShopID        int    `json:"shopID"` //店家的id,标识着唯一的店家
 	Score         int    `json:"score"`
-	ShopName      string `json:"shopName"` //店家的名字
-	Number        int    `json:"number"`   //库存
+	//ShopName      string `json:"shopName"` //店家的名字
+	Number int `json:"number"` //库存
 }
 
 type ShowProduct struct {
@@ -24,8 +24,9 @@ type ShowProduct struct {
 }
 
 type ProductDetail struct {
+	DetailID    int    `json:"detailID"`
 	ProductID   int    `json:"productID"` //商品的ID
 	ProductName string `json:"productName"`
-	Detail      string `json:"detail"` //商品详情页的图片路径
+	DetailPath  string `json:"detail"` //商品详情页的图片路径
 
 }
