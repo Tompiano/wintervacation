@@ -1,11 +1,9 @@
 package api
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"log"
 	"strconv"
-	"time"
 	"wintervacation/model"
 	"wintervacation/service"
 	"wintervacation/util"
@@ -74,30 +72,8 @@ func Login(c *gin.Context) {
 		return
 	}
 	util.ResponseOK(c)
-	//生成token
-	claims := model.MyStandardClaims{
-		UserName: UserName,
-		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix(),           //在此之前不可用
-			ExpiresAt: time.Now().Unix() + 60*60*2, //将jwt设置为2小时过期
-			Issuer:    "Tom-Jerry",                 //发行人：Tom-Jerry
-		},
-	}
-	claims2 := model.MyStandardClaims{
-		UserName: UserName,
-		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix(),              //在此之前不可用
-			ExpiresAt: time.Now().Unix() + 60*60*24*7, //将jwt设置为7天过期
-			Issuer:    "Tom-Jerry",                    //发行人：Tom-Jerry
-		},
-	}
-	mySignedKey := []byte("token") //自定义签名
-	//用指定的签名方法创建签名对象
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	refresh := jwt.NewWithClaims(jwt.SigningMethodHS256, claims2)
-	// 使用指定的mySignedKey签名并获得完整的编码后的字符串token
-	tokenString, err := token.SignedString(mySignedKey)
-	refreshString, err := refresh.SignedString(mySignedKey)
+	//生成token和refresh_token
+	tokenString, refreshString, err := service.CreateTokens(UserName, c)
 	if err != nil {
 		util.ResponseNormalError(c, 10006, "Token failed")
 		return

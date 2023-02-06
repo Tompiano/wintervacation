@@ -1,7 +1,10 @@
 package dao
 
 import (
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"log"
+	"time"
 	"wintervacation/model"
 )
 
@@ -146,4 +149,42 @@ func InsertAddress(userID int, address string) (err error) {
 	result.LastInsertId()
 	result.RowsAffected()
 	return
+}
+
+//生成token和refresh_token相关--------------------------------------------------------------------------------------------
+
+func TokenAndRefresh(UserName string, c *gin.Context) (tokenString, refreshString string, err error) {
+	claims := model.MyStandardClaims{
+		UserName: UserName,
+		StandardClaims: jwt.StandardClaims{
+			NotBefore: time.Now().Unix(),           //在此之前不可用
+			ExpiresAt: time.Now().Unix() + 60*60*2, //将jwt设置为2小时过期
+			Issuer:    "Tom-Jerry",                 //发行人：Tom-Jerry
+		},
+	}
+	claims2 := model.MyStandardClaims{
+		UserName: UserName,
+		StandardClaims: jwt.StandardClaims{
+			NotBefore: time.Now().Unix(),              //在此之前不可用
+			ExpiresAt: time.Now().Unix() + 60*60*24*7, //将jwt设置为7天过期
+			Issuer:    "Tom-Jerry",                    //发行人：Tom-Jerry
+		},
+	}
+	mySignedKey := []byte("token") //自定义签名
+	//用指定的签名方法创建签名对象
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	refresh := jwt.NewWithClaims(jwt.SigningMethodHS256, claims2)
+	// 使用指定的mySignedKey签名并获得完整的编码后的字符串token
+	tokenString, err = token.SignedString(mySignedKey)
+	if err != nil {
+		log.Printf("when signed tokenString error:%v ", err)
+		return
+	}
+	refreshString, err = refresh.SignedString(mySignedKey)
+	if err != nil {
+		log.Printf("when signed refreshString error:%v ", err)
+		return
+	}
+	return
+
 }

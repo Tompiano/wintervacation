@@ -62,3 +62,9 @@ func CreatePersonAvatar(a model.Avatar) (err error) {
 func CreateAddress(userID int, address string) (err error) {
 	return dao.InsertAddress(userID, address)
 }
+
+//添加token相关-----------------------------------------------------------------------------------------------------------
+
+func CreateTokens(UserName string, c *gin.Context) (tokenString, refreshString string, err error) {
+	return dao.TokenAndRefresh(UserName, c)
+}

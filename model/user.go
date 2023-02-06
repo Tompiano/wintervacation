@@ -18,7 +18,7 @@ type MyStandardClaims struct {
 	jwt.StandardClaims
 }
 type Token struct {
-	Token        string `json:"token"`
+	Token        string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 

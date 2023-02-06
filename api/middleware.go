@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"strings"
+	"wintervacation/model"
 	"wintervacation/service"
 	"wintervacation/util"
 )
@@ -10,6 +11,9 @@ import (
 //jwt中间件鉴权
 
 func TokenMiddleWare() gin.HandlerFunc {
+	//刷新机制：
+	//客户端先拿token来检验，如果返回检验失败则再拿refresh_token来检验
+	//无论是token还是refresh_token校验成功后均生成新的token和refresh_token返回给客户端
 	return func(c *gin.Context) {
 		//这里客户端在请求头携带token,并使用Bearer作为开头
 		//从前端处获取jwt的Header
@@ -45,10 +49,23 @@ func TokenMiddleWare() gin.HandlerFunc {
 		//验证用户是否存在
 		if err != nil {
 			util.ResponseNormalError(c, 20001, "user is not exit")
+			c.Abort() //终止程序
 			return
 		}
 		//如果用户存在将用户信息写入上下文
 		c.Set("user", u)
+		//返回给客户端新的token和refresh_token
+		newToken, newRefreshToken, err := service.CreateTokens(u.UserName, c)
+		if err != nil {
+			util.ResponseNormalError(c, 10006, "Token failed")
+			c.Abort() //终止程序
+			return
+		}
+		util.ResponseLoginOK(c, model.Token{
+			Token:        newToken,
+			RefreshToken: newRefreshToken,
+		}) //返回信息给客户端
+
 		c.Next() //进行后续函数
 
 	}
