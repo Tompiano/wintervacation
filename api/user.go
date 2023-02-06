@@ -85,9 +85,6 @@ func Login(c *gin.Context) {
 	}) //返回tokenString
 
 }
-func Refresh(c *gin.Context) {
-
-}
 
 func Person(c *gin.Context) {
 	//获取用户信息
