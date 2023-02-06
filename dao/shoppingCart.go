@@ -21,7 +21,7 @@ func SelectProductID(productID int) (err error, s model.ShoppingCart) {
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&s.Product.ProductID)
+		err = row.Scan(&s.ProductID)
 		if err != nil {
 			log.Printf("when scan productID in cart,err:%v", err)
 			return
@@ -40,8 +40,7 @@ func UpdateAmount(amount int, productID int) (err error) {
 }
 
 func InsertProductInCart(s model.ShoppingCart) (err error) {
-	result, err := DB.Exec("insert into cart(userName,userID,account,kind,productName,tile,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?,?,?,?)",
-		s.UserName, s.UserID, s.Account, s.Product.Kind, s.Product.ProductName, s.Product.Title, s.Product.Info, s.Product.ImagePath, s.Product.Price, s.Product.DiscountPrice, s.Product.Sales, s.Product.ShopID)
+	result, err := DB.Exec("insert into cart(userID,productID,amount,price)values(?,?,?,?)", s.UserID, s.ProductID, s.Amount, s.Price)
 	if err != nil {
 		log.Printf("when insert into cart,exec error:%v", err)
 		return
@@ -52,8 +51,8 @@ func InsertProductInCart(s model.ShoppingCart) (err error) {
 
 }
 func InsertProductInTemporaryCart(s model.ShoppingCart, temporaryID int) (err error) {
-	result, err := DB.Exec("insert into cart(userName,temporaryID,account,kind,productName,tile,info,imagePath,price,discountPrice,Sales,shopID)value(?,?,?,?,?,?,?,?,?,?,?,?)",
-		s.UserName, temporaryID, s.Account, s.Product.Kind, s.Product.ProductName, s.Product.Title, s.Product.Info, s.Product.ImagePath, s.Product.Price, s.Product.DiscountPrice, s.Product.Sales, s.Product.ShopID)
+	
+	result, err := DB.Exec("insert into cart(userID,productID,amount,price)values(?,?,?,?)", s.UserID, s.ProductID, s.Amount, s.Price)
 	if err != nil {
 		log.Printf("when insert into temporary cart,exec error:%v", err)
 		return

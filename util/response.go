@@ -26,8 +26,15 @@ func ResponseInternalError(c *gin.Context) {
 }
 func ResponseOK(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"status": 200,
+		"status": 1000,
 		"info":   "success",
+	})
+}
+func ResponseLoginOK(c *gin.Context, tokens interface{}) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": 1000,
+		"info":   "success",
+		"data":   tokens,
 	})
 }
 func ResponseProduct(c *gin.Context, products interface{}) {
@@ -69,5 +76,11 @@ func OrdersShow(c *gin.Context, t model.Orders, info string) {
 		"address":       t.Address,
 		"paymentAmount": t.PaymentAmount,
 		"payMethod":     t.PayMethod,
+	})
+}
+func ResponseCookie(c *gin.Context) {
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"status": 400,
+		"info":   "illegal operation",
 	})
 }

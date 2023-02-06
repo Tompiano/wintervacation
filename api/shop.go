@@ -13,13 +13,12 @@ func AnnouncementWriter(c *gin.Context) {
 	shopID, _ := strconv.Atoi(c.PostForm("shopID"))
 	shopName := c.PostForm("shopName")
 	announcement := c.PostForm("announcement")
-	if shopID == 0 || shopName == "" || announcement == "" {
+	if shopID == 0 || announcement == "" || shopName == "" {
 		util.ResponseParaError(c)
 		return
 	}
 	err := service.WriteAnnouncement(model.Shop{
 		ShopID:       shopID,
-		ShopName:     shopName,
 		Announcement: announcement,
 	})
 	if err != nil {
@@ -30,17 +29,12 @@ func AnnouncementWriter(c *gin.Context) {
 }
 func AnnouncementUpdate(c *gin.Context) {
 	shopID, _ := strconv.Atoi(c.PostForm("shopID"))
-	shopName := c.PostForm("shopName")
 	announcement := c.PostForm("announcement") //新公告
-	if shopID == 0 || shopName == "" || announcement == "" {
+	if shopID == 0 || announcement == "" {
 		util.ResponseParaError(c)
 		return
 	}
-	err := service.ChangeAnnouncement(model.Shop{
-		ShopID:       shopID,
-		ShopName:     shopName,
-		Announcement: announcement,
-	})
+	err := service.ChangeAnnouncement(announcement, shopID)
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
@@ -53,7 +47,7 @@ func ShowShopProducts(c *gin.Context) {
 	shopID, _ := strconv.Atoi(c.PostForm("shopID")) //需要展示的店铺
 	kind := c.PostForm("kind")                      //要展示的种类
 	if way == "" || shopID == 0 || kind == "" {
-		util.ResponseInternalError(c)
+		util.ResponseParaError(c)
 		return
 	}
 	if kind == "all" {
@@ -76,7 +70,7 @@ func ShowShopProducts(c *gin.Context) {
 
 }
 func ProductDetail(c *gin.Context) {
-	file, err := c.FormFile("detail")
+	file, err := c.FormFile("detailPhoto") //商品详情页的图片
 	productName := c.PostForm("productName")
 	productID, _ := strconv.Atoi(c.PostForm("productID"))
 	if err != nil || productName == "" || productID == 0 {
@@ -90,41 +84,44 @@ func ProductDetail(c *gin.Context) {
 		util.ResponseNormalError(c, 20003, "upload shop picture fail") //上传商品图片失败
 		return
 	}
-	Detail := "./" + fileName
+	detailPath := "./" + fileName
 	err = service.CreateProductDetail(model.ProductDetail{
 		ProductID:   productID,
 		ProductName: productName,
-		DetailPath:  Detail,
+		DetailPath:  detailPath,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
 	}
+	util.ResponseOK(c)
 
 }
 func DetailUpdate(c *gin.Context) {
 	file, err := c.FormFile("detail") //新的图片信息
 	productName := c.PostForm("productName")
 	productID, _ := strconv.Atoi(c.PostForm("productID"))
+	//入参校验
 	if err != nil || productName == "" || productID == 0 {
 		util.ResponseParaError(c)
 		return
 	}
 	fileName := productName + ".detail.png"
-	err = c.SaveUploadedFile(file, "./"+fileName) //上传文件到本地
+	err = c.SaveUploadedFile(file, "./"+fileName) //上传文件
 	if err != nil {
 		log.Printf("when upload detail picture error:%v", err)
 		util.ResponseNormalError(c, 20003, "upload shop picture fail") //上传商品图片失败
 		return
 	}
-	Detail := "./" + fileName
+	detailPath := "./" + fileName
 	err = service.ChangeProductDetail(model.ProductDetail{
 		ProductID:   productID,
 		ProductName: productName,
-		DetailPath:  Detail,
+		DetailPath:  detailPath,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)
 		return
 	}
+	util.ResponseOK(c)
 }

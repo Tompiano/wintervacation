@@ -9,12 +9,14 @@ func Entrance() {
 	//r.Use(TokenMiddleWare())
 	user := r.Group("/user")
 	{
-		user.POST("/register", Register)     //注册
-		user.POST("/add", Person)            //添加个人信息
-		user.POST("/addressAdd", AddressAdd) //添加用户的地址
-		user.POST("/avatar", Avatar)         //添加用户头像
-		user.GET("/login", Login)            //登录
-		user.PUT("/forget", Forget)          //忘记密码
+		user.POST("/register", Register)                        //注册
+		user.GET("/login", Login)                               //登录
+		user.GET("/refresh", Refresh)                           //刷新token
+		user.PUT("/forget", Forget)                             //忘记密码
+		user.POST("/add", TokenMiddleWare(), Person)            //添加个人信息
+		user.POST("/addressAdd", TokenMiddleWare(), AddressAdd) //添加用户的地址
+		user.POST("/avatar", TokenMiddleWare(), Avatar)         //添加用户头像
+
 	}
 
 	item := r.Group("/product")
@@ -27,9 +29,10 @@ func Entrance() {
 
 	shoppingCart := r.Group("/shopping_cart") //购物车
 	{
-		shoppingCart.GET("/add", Add)          //将商品加入购物车
-		shoppingCart.DELETE("/delete", Delete) //删除购物车中的商品
-		shoppingCart.GET("/pay", Pay)          //将购物车内商品结账
+		shoppingCart.GET("/cookie", Cookie)                //设置购物车要用的cookie
+		shoppingCart.POST("/add", CookieMiddleWare(), Add) //将商品加入购物车
+		shoppingCart.DELETE("/delete", Delete)             //删除购物车中的商品
+		shoppingCart.GET("/pay", Pay)                      //将购物车内商品结账
 	}
 
 	comment := r.Group("/comment") //商品的评论

@@ -10,16 +10,23 @@ import (
 
 func Add(c *gin.Context) {
 	//获取要加入的商品的数据
-	product := model.ShoppingCart{}
-	err := c.ShouldBind(&product)
-	if err != nil {
+	userID, _ := strconv.Atoi(c.PostForm("userID"))       //用户ID
+	productID, _ := strconv.Atoi(c.PostForm("productID")) //商品ID
+	price, _ := strconv.Atoi(c.PostForm("productID"))     //商品单价
+	amount, _ := strconv.Atoi(c.PostForm("amount"))       //商品数量
+	if userID == 0 || productID == 0 || amount == 0 || price == 0 {
 		util.ResponseParaError(c)
 		return
 	}
-	//判断是否为登录状态，但是都可以加入购物车
-	if product.UserID == 0 {
+	//判断是否登录，但是都可以加入购物车
+	if userID == 0 {
 		temporaryID, _ := strconv.Atoi(c.PostForm("temporaryID")) //获取游客的身份ID
-		err = service.AddProductsInTemporaryCart(product, temporaryID)
+		err := service.AddProductsInTemporaryCart(model.ShoppingCart{
+			UserID:    temporaryID,
+			ProductID: productID,
+			Price:     price,
+			Amount:    amount,
+		}, temporaryID)
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
@@ -27,11 +34,11 @@ func Add(c *gin.Context) {
 	}
 	//如果登陆了就利用数据库来储存购物车
 	//先判断数据库中是否存在相同的商品
-	err, s := service.SearchProductsInCart(product.Product.ProductID)
-	if product.Product.ProductID == s.Product.ProductID {
+	err, s := service.SearchProductsInCart(productID)
+	if productID == productID {
 		//有相同商品时候就将数量增加,则现有数量=原先数量+再次准备购买的数量
-		product.Amount += s.Amount
-		err = service.ChangeAmount(product.Amount, product.Product.ProductID)
+		amount += s.Amount
+		err = service.ChangeAmount(amount, productID)
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
@@ -39,7 +46,12 @@ func Add(c *gin.Context) {
 
 	} else {
 		//没有相同商品时候就插入数据到数据库中
-		err = service.AddProductsInCart(product)
+		err = service.AddProductsInCart(model.ShoppingCart{
+			UserID:    userID,
+			ProductID: productID,
+			Price:     price,
+			Amount:    amount,
+		})
 		if err != nil {
 			util.ResponseInternalError(c)
 			return
@@ -108,4 +120,12 @@ func Pay(c *gin.Context) {
 		util.ResponsePay(c, productID[i], numbers[i], price[i]) //返回选中的商品的信息
 	}
 
+}
+func Cookie(c *gin.Context) {
+	_, err := c.Cookie("cart_cookie")
+	//如果没有设置过cookie则设置cookie
+	if err != nil {
+		//设置cookie的key，cookie的值，过期时间，所在目录，域名，是否只能通过http访问，是否允许别人通过js获取自己的cookie
+		c.SetCookie("cart_cookie", "value_cookie", 60, "/", "127.0.0.1", false, true)
+	}
 }

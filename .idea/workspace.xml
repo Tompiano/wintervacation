@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12249e9d-0a88-4dff-a970-048eb91406e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/美的(Midea)606L对开门冰箱.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/电视.detail.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/collection.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/collection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/shop.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/shop.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/shoppingCart.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/shop.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/shop.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/shoppingCart.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/shoppingCart.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/shop.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/shop.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

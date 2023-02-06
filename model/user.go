@@ -15,8 +15,11 @@ type User struct {
 
 type MyStandardClaims struct {
 	UserName string `json:"userName"`
-	Foo      string `json:"foo"`
 	jwt.StandardClaims
+}
+type Token struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 //添加用户信息相关的信息

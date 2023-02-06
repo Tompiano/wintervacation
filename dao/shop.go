@@ -16,15 +16,18 @@ func InsertAnnouncement(a model.Shop) (err error) {
 	result.RowsAffected()
 	return
 }
-func UpdateAnnouncement(a model.Shop) (err error) {
-	_, err = DB.Exec("update shop set shopID=?,shopName=?,announcement=?", a.ShopID, a.ShopName, a.Announcement)
+func UpdateAnnouncement(announcement string, shopID int) (err error) {
+	result, err := DB.Exec("update shop set announcement=? where shopID=?", announcement, shopID)
 	if err != nil {
 		log.Printf("when update announcement error:%v ", err)
 		return
 	}
+	result.LastInsertId()
+	result.RowsAffected()
 	return
 }
-func SelectProductByShopID(way, kind string, shopID int) (err error, p model.Product) {
+func SelectProductByShopID(way, kind string, shopID int) (err error, shopProducts []*model.Product) {
+	var p model.Product
 	stmt, err := DB.Prepare("select*from product where shopID=? and kind=? order by ?")
 	if err != nil {
 		log.Printf("when select product by shopID,mysql prepare error:%v", err)
@@ -45,6 +48,7 @@ func SelectProductByShopID(way, kind string, shopID int) (err error, p model.Pro
 	}
 	defer row.Close()
 	if err = row.Err(); err != nil {
+		log.Printf("close error:%v ", err)
 		return
 	}
 	for row.Next() {
@@ -53,10 +57,25 @@ func SelectProductByShopID(way, kind string, shopID int) (err error, p model.Pro
 			log.Printf("when search products by shopID,scan error:%v", err)
 			return
 		}
+		temporary := model.Product{
+			ProductID:     p.ProductID,
+			Kind:          p.Kind,
+			ProductName:   p.ProductName,
+			Title:         p.Title,
+			Info:          p.Info,
+			ImagePath:     p.ImagePath,
+			Price:         p.Price,
+			DiscountPrice: p.DiscountPrice,
+			Sales:         p.Sales,
+			ShopID:        p.ShopID,
+			Score:         p.Score,
+			Number:        p.Number,
+		}
+		shopProducts = append(shopProducts, &temporary)
 	}
 	return
 }
-func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Product) {
+func SelectAllProductsByShopID(way string, shopID int) (err error, shopProducts []*model.Product) {
 	stmt, err := DB.Prepare("select*from product where shopID=? order by ?")
 	if err != nil {
 		log.Printf("when search all products by shopID,mysql prepare error:%v", err)
@@ -75,6 +94,7 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Produ
 		log.Printf("when search all products by shopID,query error:%v", err)
 		return
 	}
+	var p model.Product
 	defer row.Close()
 	if err = row.Err(); err != nil {
 		return
@@ -85,22 +105,35 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, p model.Produ
 			log.Printf("when search all products by shopID,scan error:%v", err)
 			return
 		}
+		temporary := model.Product{
+			ProductID:     p.ProductID,
+			Kind:          p.Kind,
+			ProductName:   p.ProductName,
+			Title:         p.Title,
+			Info:          p.Info,
+			ImagePath:     p.ImagePath,
+			Price:         p.Price,
+			DiscountPrice: p.DiscountPrice,
+			Sales:         p.Sales,
+			ShopID:        p.ShopID,
+			Score:         p.Score,
+			Number:        p.Number,
+		}
+		shopProducts = append(shopProducts, &temporary)
 	}
 	return
 }
 func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
-	result, err := DB.Exec("insert into detail(productID,productName,detail)values(?,?,?,?)", &d.ProductID, &d.ProductName, &d.DetailPath)
+	_, err = DB.Exec("insert into detail(productID,productName,detailPath)values(?,?,?)", d.ProductID, d.ProductName, d.DetailPath)
 	if err != nil {
 		log.Printf("when insert product detail,mysql exec error:%v ", err)
 		return
 	}
-	result.LastInsertId()
-	result.RowsAffected()
 	return
 }
 
 func UpdateDetailPhotos(d model.ProductDetail) (err error) {
-	_, err = DB.Exec("update detail set detail where ProductID=? and ProductName=?", &d.DetailPath, &d.ProductID, &d.ProductName)
+	_, err = DB.Exec("update detail set detailPath where ProductID=? ", d.DetailPath, d.ProductID)
 	if err != nil {
 		log.Printf("when update product detail,mysql exec error:%v ", err)
 		return
