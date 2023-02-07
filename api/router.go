@@ -32,7 +32,7 @@ func Entrance() {
 	{
 
 		shoppingCart.POST("/add", CookieMiddleWare(), Add) //将商品加入购物车
-		shoppingCart.PUT("/change", Change)                //取消商品的勾选或者勾选商品
+		shoppingCart.PUT("/change", Change)                //改变商品的勾选状态
 		shoppingCart.DELETE("/delete", Delete)             //删除购物车中的商品
 		shoppingCart.GET("/pay", TokenMiddleWare(), Pay)   //将购物车内商品结账
 	}
