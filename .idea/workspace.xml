@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12249e9d-0a88-4dff-a970-048eb91406e7" name="Changes" comment="api:完善README">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="12249e9d-0a88-4dff-a970-048eb91406e7" name="Changes" comment="api:修改商品的URL储存" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +95,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="api:修改购物车勾选支付" />
     <MESSAGE value="api:完善README" />
-    <option name="LAST_COMMIT_MESSAGE" value="api:完善README" />
+    <MESSAGE value="api:修改商品的URL储存" />
+    <option name="LAST_COMMIT_MESSAGE" value="api:修改商品的URL储存" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
