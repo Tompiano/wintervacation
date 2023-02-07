@@ -33,7 +33,7 @@ func Creator(c *gin.Context) {
 		util.ResponseNormalError(c, 20003, "upload shop picture fail") //上传商品图片失败
 		return
 	}
-	ImagePath := "./" + fileName
+	ImagePath := "http://localhost:8080" + "./" + fileName
 	//传入数据到数据库前对参数的要求
 	if len(productName) > 50 {
 		util.ResponseNormalError(c, 20004, "productName excessive")
