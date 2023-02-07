@@ -64,7 +64,7 @@ func SelectUserNameIfFirPassword(userName string) (u model.User) {
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.ID)
+		err = row.Scan(&u.ID, &u.UserName, &u.Phone, &u.Password)
 		if err != nil {
 			log.Printf("when scan in login,err:%v", err)
 			return
@@ -91,7 +91,7 @@ func SelectPhoneIfExist(phone string) (u model.User, err error) {
 		return
 	}
 	for row.Next() {
-		err = row.Scan(&u.UserName, &u.Password, &u.Phone, &u.ID)
+		err = row.Scan(&u.ID, &u.UserName, &u.Phone, &u.Password)
 		if err != nil {
 			log.Printf("when scan in phone,err:%v", err)
 			return

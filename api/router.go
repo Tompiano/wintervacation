@@ -2,11 +2,13 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Entrance() {
 	r := gin.Default()
 	//r.Use(TokenMiddleWare())
+	r.StaticFS("/assets", http.Dir("assets"))
 	user := r.Group("/user")
 	{
 		user.POST("/register", Register)                        //注册
@@ -14,7 +16,7 @@ func Entrance() {
 		user.PUT("/forget", Forget)                             //忘记密码
 		user.POST("/add", TokenMiddleWare(), Person)            //添加个人信息
 		user.POST("/addressAdd", TokenMiddleWare(), AddressAdd) //添加用户的地址
-		user.POST("/avatar", TokenMiddleWare(), Avatar)         //添加用户头像
+		user.POST("/avatar", Avatar)                            //添加用户头像
 
 	}
 

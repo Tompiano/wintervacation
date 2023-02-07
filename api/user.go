@@ -71,7 +71,6 @@ func Login(c *gin.Context) {
 		util.ResponseNormalError(c, 404, "Not Found")
 		return
 	}
-	util.ResponseOK(c)
 	//生成token和refresh_token
 	tokenString, refreshString, err := service.CreateTokens(UserName, c)
 	if err != nil {
@@ -161,7 +160,7 @@ func Avatar(c *gin.Context) {
 		util.ResponseNormalError(c, 20002, "upload avatar fail")
 		return
 	}
-	avatarPath := "./" + avatarName
+	avatarPath := "./assets/" + avatarName
 	//将照片路径存入数据库
 	err = service.CreatePersonAvatar(model.Avatar{
 		UserID:     userID,
