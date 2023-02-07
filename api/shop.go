@@ -88,7 +88,7 @@ func ProductDetail(c *gin.Context) {
 	err = service.CreateProductDetail(model.ProductDetail{
 		ProductID:   productID,
 		ProductName: productName,
-		DetailPath:  detailPath,
+		URL:         detailPath,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)
@@ -117,7 +117,7 @@ func DetailUpdate(c *gin.Context) {
 	err = service.ChangeProductDetail(model.ProductDetail{
 		ProductID:   productID,
 		ProductName: productName,
-		DetailPath:  detailPath,
+		URL:         detailPath,
 	})
 	if err != nil {
 		util.ResponseInternalError(c)

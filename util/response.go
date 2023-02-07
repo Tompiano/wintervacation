@@ -30,6 +30,13 @@ func ResponseOK(c *gin.Context) {
 		"info":   "success",
 	})
 }
+func ResponseURL(c *gin.Context, url string) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": 1000,
+		"info":   "success",
+		"url":    url,
+	})
+}
 func ResponseLoginOK(c *gin.Context, tokens interface{}) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": 1000,
@@ -82,5 +89,13 @@ func ResponseCookie(c *gin.Context) {
 	c.JSON(http.StatusUnauthorized, gin.H{
 		"status": 400,
 		"info":   "illegal operation",
+	})
+}
+func ResponseCartPay(c *gin.Context, total int, data interface{}) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": 1000,
+		"info":   "success",
+		"total":  total,
+		"data":   data,
 	})
 }

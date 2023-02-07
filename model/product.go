@@ -27,6 +27,6 @@ type ProductDetail struct {
 	DetailID    int    `json:"detailID"`
 	ProductID   int    `json:"productID"` //商品的ID
 	ProductName string `json:"productName"`
-	DetailPath  string `json:"detail"` //商品详情页的图片路径
+	URL         string `json:"detail"` //商品详情页的图片路径
 
 }

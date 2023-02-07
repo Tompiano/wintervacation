@@ -164,7 +164,7 @@ func SelectDetail(productID int) (err error, details []*model.ProductDetail) {
 	}
 	defer row.Close()
 	for row.Next() {
-		err = row.Scan(&d.DetailID, &d.ProductID, &d.ProductName, &d.DetailPath)
+		err = row.Scan(&d.DetailID, &d.ProductID, &d.ProductName, &d.URL)
 		if err != nil {
 			log.Printf("when scan error:%v ", err)
 			return
@@ -173,7 +173,7 @@ func SelectDetail(productID int) (err error, details []*model.ProductDetail) {
 			DetailID:    d.DetailID,
 			ProductID:   productID,
 			ProductName: d.ProductName,
-			DetailPath:  d.DetailPath,
+			URL:         "http://logalhost:8080" + d.URL,
 		}
 		details = append(details, &detail)
 

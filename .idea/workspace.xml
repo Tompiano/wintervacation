@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12249e9d-0a88-4dff-a970-048eb91406e7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/shop.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/shop.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/shoppingCart.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/电视.detail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/shop.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/shop.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/shoppingCart.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/shoppingCart.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/shoppingCart.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/shoppingCart.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/util/response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +66,7 @@
     &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Lenovo&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -79,7 +87,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build wintervacation/cmd" />
+        <item itemvalue="Go 构建.go build wintervacation/cmd" />
       </list>
     </recent_temporary>
   </component>

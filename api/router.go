@@ -16,7 +16,7 @@ func Entrance() {
 		user.PUT("/forget", Forget)                             //忘记密码
 		user.POST("/add", TokenMiddleWare(), Person)            //添加个人信息
 		user.POST("/addressAdd", TokenMiddleWare(), AddressAdd) //添加用户的地址
-		user.POST("/avatar", Avatar)                            //添加用户头像
+		user.POST("/avatar", TokenMiddleWare(), Avatar)         //添加用户头像
 
 	}
 
@@ -30,8 +30,9 @@ func Entrance() {
 
 	shoppingCart := r.Group("/shopping_cart") //购物车
 	{
-		shoppingCart.GET("/cookie", Cookie)                //设置购物车要用的cookie
+
 		shoppingCart.POST("/add", CookieMiddleWare(), Add) //将商品加入购物车
+		shoppingCart.PUT("/change", Change)                //取消商品的勾选或者勾选商品
 		shoppingCart.DELETE("/delete", Delete)             //删除购物车中的商品
 		shoppingCart.GET("/pay", TokenMiddleWare(), Pay)   //将购物车内商品结账
 	}

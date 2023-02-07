@@ -32,6 +32,7 @@ func SelectProductID(productID int) (err error, s model.ShoppingCart) {
 
 func UpdateAmount(amount int, productID int) (err error) {
 	_, err = DB.Exec("update cart set amount=? where productID=? ", amount, productID)
+	_, err = DB.Exec("update cart set check=? where productID=?", 1, productID)
 	if err != nil {
 		log.Printf("when update amount,exec error:%v", err)
 		return
@@ -40,7 +41,7 @@ func UpdateAmount(amount int, productID int) (err error) {
 }
 
 func InsertProductInCart(s model.ShoppingCart) (err error) {
-	result, err := DB.Exec("insert into cart(userID,productID,amount,price)values(?,?,?,?)", s.UserID, s.ProductID, s.Amount, s.Price)
+	result, err := DB.Exec("insert into cart(userID,productID,amount,check)values(?,?,?,?)", s.UserID, s.ProductID, s.Amount, s.Check)
 	if err != nil {
 		log.Printf("when insert into cart,exec error:%v", err)
 		return
@@ -50,18 +51,7 @@ func InsertProductInCart(s model.ShoppingCart) (err error) {
 	return
 
 }
-func InsertProductInTemporaryCart(s model.ShoppingCart, temporaryID int) (err error) {
-	
-	result, err := DB.Exec("insert into cart(userID,productID,amount,price)values(?,?,?,?)", s.UserID, s.ProductID, s.Amount, s.Price)
-	if err != nil {
-		log.Printf("when insert into temporary cart,exec error:%v", err)
-		return
-	}
-	result.LastInsertId()
-	result.RowsAffected()
-	return
 
-}
 func DeleteAllProductsInCart() (err error) {
 	_, err = DB.Exec("delete from cart")
 	if err != nil {
@@ -107,6 +97,55 @@ func SelectProductsIfEnough(productID, number int) (err error, judge bool, p mod
 		} else {
 			judge = true
 		}
+	}
+	return
+}
+func UpdateCheck(userID, productID, check int) (err error) {
+	_, err = DB.Exec("update cart set check=? where userID=? and productID=?", check, userID, productID)
+	if err != nil {
+		log.Printf("when update cart check error :%v ", err)
+		return
+	}
+	return
+}
+func SelectCheck(userID int) (err error, cart []*model.ShoppingCart) {
+	var s model.ShoppingCart
+	stmt, err := DB.Prepare("select*from cart where userID=?")
+	if err != nil {
+		log.Printf("when prepare error:%v ", err)
+		return
+	}
+	row, err := stmt.Query(userID)
+	if err != nil {
+		log.Printf("when query error:%v ", err)
+		return
+	}
+	defer row.Close()
+	if err = row.Err(); err != nil {
+		return
+	}
+	for row.Next() {
+		err = row.Scan(&s.CartID, &s.ProductID, &s.UserID, &s.Amount, &s.Check)
+		if err != nil {
+			log.Printf("when scan error:%v ", err)
+			return
+		}
+		temporary := model.ShoppingCart{
+			CartID:    s.CartID,
+			ProductID: s.ProductID,
+			UserID:    s.UserID,
+			Amount:    s.Amount,
+			Check:     s.Check,
+		}
+		cart = append(cart, &temporary)
+	}
+	return
+}
+func UpdateProductsNumber(productID, number int) (err error) {
+	_, err = DB.Exec("update product set amount=? where productID=? ", number, productID)
+	if err != nil {
+		log.Printf("when update products number error:%v ", err)
+		return
 	}
 	return
 }

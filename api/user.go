@@ -171,7 +171,8 @@ func Avatar(c *gin.Context) {
 		util.ResponseInternalError(c)
 		return
 	}
-	util.ResponseOK(c)
+	url := "http://localhost:8080" + avatarPath
+	util.ResponseURL(c, url)
 }
 
 func AddressAdd(c *gin.Context) {

@@ -124,7 +124,7 @@ func SelectAllProductsByShopID(way string, shopID int) (err error, shopProducts 
 	return
 }
 func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
-	_, err = DB.Exec("insert into detail(productID,productName,detailPath)values(?,?,?)", d.ProductID, d.ProductName, d.DetailPath)
+	_, err = DB.Exec("insert into detail(productID,productName,detailPath)values(?,?,?)", d.ProductID, d.ProductName, d.URL)
 	if err != nil {
 		log.Printf("when insert product detail,mysql exec error:%v ", err)
 		return
@@ -133,7 +133,7 @@ func InsertProductDetailPhotos(d model.ProductDetail) (err error) {
 }
 
 func UpdateDetailPhotos(d model.ProductDetail) (err error) {
-	_, err = DB.Exec("update detail set detailPath where ProductID=? ", d.DetailPath, d.ProductID)
+	_, err = DB.Exec("update detail set detailPath where ProductID=? ", d.URL, d.ProductID)
 	if err != nil {
 		log.Printf("when update product detail,mysql exec error:%v ", err)
 		return
