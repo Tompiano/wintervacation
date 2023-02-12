@@ -76,7 +76,7 @@ func LookComment(c *gin.Context) {
 			IdMapTree[item.ParentID].Children = append(IdMapTree[item.ParentID].Children, item)
 		}
 		//把节点加入map表中
-		IdMapTree[item.CommentID] = item
+		IdMapTree[item.CommentID] = tree[0]
 
 	}
 

@@ -2,13 +2,12 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func Entrance() {
 	r := gin.Default()
 	//r.Use(TokenMiddleWare())
-	r.StaticFS("/assets", http.Dir("assets"))
+
 	user := r.Group("/user")
 	{
 		user.POST("/register", Register)                        //注册
@@ -31,10 +30,10 @@ func Entrance() {
 	shoppingCart := r.Group("/shopping_cart") //购物车
 	{
 
-		shoppingCart.POST("/add", CookieMiddleWare(), Add) //将商品加入购物车
-		shoppingCart.PUT("/change", Change)                //改变商品的勾选状态
-		shoppingCart.DELETE("/delete", Delete)             //删除购物车中的商品
-		shoppingCart.GET("/pay", TokenMiddleWare(), Pay)   //将购物车内商品结账
+		shoppingCart.POST("/add", Add)         //将商品加入购物车
+		shoppingCart.PUT("/change", Change)    //改变商品的勾选状态
+		shoppingCart.DELETE("/delete", Delete) //删除购物车中的商品
+		shoppingCart.GET("/pay", Pay)          //将购物车内商品结账
 	}
 
 	comment := r.Group("/comment") //商品的评论
