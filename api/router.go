@@ -7,7 +7,9 @@ import (
 func Entrance() {
 	r := gin.Default()
 	//r.Use(TokenMiddleWare())
-
+	r.GET("/html", HTML)
+	//github 登录
+	r.POST("/OAuth/redirect", Oauth)
 	user := r.Group("/user")
 	{
 		user.POST("/register", Register)                        //注册

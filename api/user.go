@@ -50,8 +50,7 @@ func Register(c *gin.Context) {
 		util.ResponseInternalError(c)
 		return
 	} else {
-		//c.SetCookie("cookie", "test", 3600, "/",
-		//"localhost", false, true)
+
 		util.ResponseOK(c)
 	}
 

@@ -20,6 +20,7 @@ type MyStandardClaims struct {
 type Token struct {
 	Token        string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
+	AccessToken  string `json:"accessToken"`
 }
 
 //添加用户信息相关的信息
